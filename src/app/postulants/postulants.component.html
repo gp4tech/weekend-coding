@@ -1,0 +1,21 @@
+<div class="container">
+  <table class="responsive-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Institution</th>
+        <th>Class</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let postulant of postulants$ | async; index as i">
+        <td>{{ i + 1 }}</td>
+        <td>{{ postulant.fullName }}</td>
+        <td>{{ postulant.institution }}</td>
+        <td>{{ postulant.class }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
