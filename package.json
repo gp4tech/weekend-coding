@@ -4,11 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
+    "build": "ng build --prod",
+    "test": "ng test --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "keys:create": "cat ./src/environments/keys.template.ts > ./src/environments/keys.ts"
+    "keys:create": "cat ./src/environments/keys.template.ts > ./src/environments/keys.ts",
+    "keys:inject": "echo $KEYS > ./src/environments/keys.ts",
+    "firebase:deploy": "firebase deploy"
   },
   "private": true,
   "dependencies": {
@@ -21,6 +23,7 @@
     "@angular/platform-browser": "~8.1.0",
     "@angular/platform-browser-dynamic": "~8.1.0",
     "@angular/router": "~8.1.0",
+    "angularx-qrcode": "^1.6.1",
     "core-js": "^2.5.4",
     "firebase": "^6.2.4",
     "materialize-css": "^1.0.0-rc.2",
