@@ -22,4 +22,9 @@ export class PostulantsComponent implements OnInit {
       DataOrder.asc
     );
   }
+
+  acceptPostulant(postulant: Postulant): void {
+    postulant.accepted = !postulant.accepted;
+    this.postulantService.upsertData(postulant);
+  }
 }

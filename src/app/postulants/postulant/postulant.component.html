@@ -20,19 +20,30 @@
         <p><b>Institution:</b> {{ postulant.institution }}</p>
         <p><b>Phone: </b> {{ postulant.phone }}</p>
         <p><b>Reason: </b> {{ postulant.reason }}</p>
+        <p>
+          <label class="white-text">
+            <input type="checkbox" [checked]="postulant.accepted" (change)="acceptPostulant(postulant)">
+            <span>Accept postulant</span>
+          </label>
+        </p>
       </div>
     </div>
   </div>
 </div>
 
 <div wcModal id="print-credential" class="modal">
-  <div class="modal-content">
-    <h4>Print Credential</h4>
-    <div class="center-align">
-      <wc-postulant-credential [postulant]="postulant" canvasWidth="391" canvasHeight="636"></wc-postulant-credential>
+  <ng-container *ngIf="postulant">
+    <div class="modal-content">
+      <h4>Print Credential</h4>
+      <div *ngIf="postulant.accepted" class="center-align">
+        <wc-postulant-credential [postulant]="postulant" canvasWidth="391" canvasHeight="636"></wc-postulant-credential>
+      </div>
+      <div *ngIf="!postulant.accepted" class="center-align">
+        <p>This postulant was not accepted. The credentials were not generated.</p>
+      </div>
     </div>
-  </div>
-  <div class="modal-footer">
-    <button class="modal-close waves-effect waves-light btn">Print</button>
-  </div>
+    <div class="modal-footer">
+      <button class="modal-close waves-effect waves-light btn" [disabled]="!postulant.accepted">Print</button>
+    </div>
+  </ng-container>
 </div>
