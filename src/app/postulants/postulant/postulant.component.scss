@@ -1,0 +1,16 @@
+@import '../../../styles.mat';
+
+.postulant {
+  &-header {
+    position: relative;
+  }
+
+  @media #{$medium-and-up} {
+    &-print-btn {
+      position: absolute;
+      margin-bottom: 1.424rem;
+      right: 10px;
+      bottom: 20px;
+    }
+  }
+}
