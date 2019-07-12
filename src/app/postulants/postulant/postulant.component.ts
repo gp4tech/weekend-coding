@@ -15,7 +15,7 @@ export class PostulantComponent implements OnInit {
   postulantId: string;
   postulant: Postulant;
   postulantSubscription: Subscription;
-  qrData = 'QR was not generated yet';
+  // qrData = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -31,8 +31,7 @@ export class PostulantComponent implements OnInit {
       .subscribe(postulant => {
         if (postulant) {
           this.postulant = postulant;
-          this.qrData = JSON.stringify(postulant);
-          console.log(this.postulant);
+          // this.qrData = JSON.stringify(postulant);
         } else {
           this.router.navigate(['/']);
         }
