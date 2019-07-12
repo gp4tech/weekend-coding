@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { PostulantsService } from '../postulants.service';
-import { Postulant } from '../../shared/models/postulant.model';
 
 @Component({
   selector: 'wc-postulant',
@@ -12,10 +11,9 @@ import { Postulant } from '../../shared/models/postulant.model';
   styleUrls: ['./postulant.component.scss']
 })
 export class PostulantComponent implements OnInit {
+  postulant = {};
   postulantId: string;
-  postulant: Postulant;
   postulantSubscription: Subscription;
-  qrData = 'QR was not generated yet';
 
   constructor(
     private route: ActivatedRoute,
@@ -31,8 +29,6 @@ export class PostulantComponent implements OnInit {
       .subscribe(postulant => {
         if (postulant) {
           this.postulant = postulant;
-          this.qrData = JSON.stringify(postulant);
-          console.log(this.postulant);
         } else {
           this.router.navigate(['/']);
         }

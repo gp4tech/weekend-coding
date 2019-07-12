@@ -1,4 +1,38 @@
 <div class="container">
-  <p>postulant works!</p>
-  <qrcode [qrdata]="qrData" [size]="256" [level]="'M'"></qrcode>
+  <div class="row postulant">
+    <div class="col s12 postulant-header">
+      <div class="row">
+        <div class="col s12 m9">
+          <h3>{{ postulant.fullName }}</h3>
+        </div>
+        <div class="col s12 m3 right-align">
+          <a class="postulant-print-btn waves-effect waves-light btn modal-trigger"
+            href="#print-credential">Credential</a>
+        </div>
+      </div>
+    </div>
+    <div class="col s12">
+      <div class="card-panel teal white-text">
+        <p><b>Age: </b> {{ postulant.age }}</p>
+        <p><b>Class: </b> {{ postulant.class }}</p>
+        <p><b>Email: </b> {{ postulant.email }}</p>
+        <p><b>Gender: </b> {{ postulant.gender }}</p>
+        <p><b>Institution:</b> {{ postulant.institution }}</p>
+        <p><b>Phone: </b> {{ postulant.phone }}</p>
+        <p><b>Reason: </b> {{ postulant.reason }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div wcModal id="print-credential" class="modal">
+  <div class="modal-content">
+    <h4>Print Credential</h4>
+    <div class="center-align">
+      <wc-postulant-credential [postulant]="postulant" canvasWidth="391" canvasHeight="636"></wc-postulant-credential>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="modal-close waves-effect waves-light btn">Print</button>
+  </div>
 </div>
