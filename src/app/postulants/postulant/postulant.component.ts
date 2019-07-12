@@ -35,4 +35,9 @@ export class PostulantComponent implements OnInit {
         }
       });
   }
+
+  acceptPostulant(postulant: Postulant): void {
+    postulant.accepted = !postulant.accepted;
+    this.postulantService.upsertData(postulant);
+  }
 }

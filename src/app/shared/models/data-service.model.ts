@@ -3,7 +3,7 @@ import {
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
 
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 
 import { DataType } from './data-type.model';
 import { DataOrder } from './data-order.enum';
@@ -41,5 +41,15 @@ export abstract class DataService<T extends DataType> {
 
   getById(id: string): Observable<T> {
     return this.db.doc<T>(`${this.collection}/${id}`).valueChanges();
+  }
+
+  upsertData(data: T): Observable<void> {
+    let id = data.id;
+    if (!id) {
+      id = this.db.createId();
+      data.id = id;
+    }
+
+    return from(this.dataCollection.doc(id).set(data, { merge: true }));
   }
 }
