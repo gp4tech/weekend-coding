@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { PostulantsService } from '../postulants.service';
+import { Postulant } from '../../shared/models/postulant.model';
 
 @Component({
   selector: 'wc-postulant',
@@ -11,7 +12,7 @@ import { PostulantsService } from '../postulants.service';
   styleUrls: ['./postulant.component.scss']
 })
 export class PostulantComponent implements OnInit {
-  postulant = {};
+  postulant: Postulant;
   postulantId: string;
   postulantSubscription: Subscription;
 
