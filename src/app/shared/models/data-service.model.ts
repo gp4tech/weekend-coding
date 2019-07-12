@@ -3,7 +3,7 @@ import {
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
 
-import { Observable, from } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 
 import { DataType } from './data-type.model';
 import { DataOrder } from './data-order.enum';
@@ -51,5 +51,13 @@ export abstract class DataService<T extends DataType> {
     }
 
     return from(this.dataCollection.doc(id).set(data, { merge: true }));
+  }
+
+  deleteData(data: T): Observable<void> {
+    if (data.id) {
+      data.deleteFlag = true;
+      return this.upsertData(data);
+    }
+    return of();
   }
 }
