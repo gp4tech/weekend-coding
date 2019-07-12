@@ -27,9 +27,6 @@ jobs:
           name: Inject keys
           command: npm run keys:inject
       - run:
-          name: Testing
-          command: npm run test
-      - run:
           name: Building
           command: npm run build
       - save_cache:
