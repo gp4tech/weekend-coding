@@ -3,11 +3,12 @@ import {
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
 
-import { Observable, from } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 
 import { DataType } from './data-type.model';
 import { DataOrder } from './data-order.enum';
 import { FirestoreCollection } from './firestore-collection.enum';
+import { map } from 'rxjs/operators';
 
 export abstract class DataService<T extends DataType> {
   dataCollection: AngularFirestoreCollection<T>;
@@ -16,7 +17,9 @@ export abstract class DataService<T extends DataType> {
     protected db: AngularFirestore,
     protected collection: FirestoreCollection
   ) {
-    this.dataCollection = db.collection<T>(collection);
+    this.dataCollection = db.collection<T>(collection, ref =>
+      ref.where('deleteFlag', '==', false)
+    );
   }
 
   getAll(): Observable<T[]> {
@@ -30,7 +33,7 @@ export abstract class DataService<T extends DataType> {
   ): Observable<T[]> {
     return this.db
       .collection<T>(this.collection, ref => {
-        let query = ref.orderBy(field, order);
+        let query = ref.where('deleteFlag', '==', false).orderBy(field, order);
         if (maxLimit) {
           query = query.limit(maxLimit);
         }
@@ -40,7 +43,18 @@ export abstract class DataService<T extends DataType> {
   }
 
   getById(id: string): Observable<T> {
-    return this.db.doc<T>(`${this.collection}/${id}`).valueChanges();
+    return this.db
+      .doc<T>(`${this.collection}/${id}`)
+      .valueChanges()
+      .pipe(
+        map(data => {
+          if (data && !data.deleteFlag) {
+            return data;
+          }
+
+          return null;
+        })
+      );
   }
 
   upsertData(data: T): Observable<void> {
@@ -51,5 +65,13 @@ export abstract class DataService<T extends DataType> {
     }
 
     return from(this.dataCollection.doc(id).set(data, { merge: true }));
+  }
+
+  deleteData(data: T): Observable<void> {
+    if (data.id) {
+      data.deleteFlag = true;
+      return this.upsertData(data);
+    }
+    return of();
   }
 }
