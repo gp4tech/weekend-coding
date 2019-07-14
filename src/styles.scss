@@ -20,3 +20,15 @@ main {
 a {
   cursor: pointer;
 }
+
+.modal-close {
+  margin-left: 6px !important;
+}
+
+.ok-btn {
+  background-color: $success-color;
+}
+
+.cancel-btn {
+  background-color: $error-color;
+}
