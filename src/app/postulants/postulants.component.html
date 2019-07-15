@@ -16,11 +16,21 @@
 
     <tbody>
       <tr *ngFor="let postulant of postulants$ | async; index as i" class="postulant-row">
-        <td [routerLink]="['/postulants', postulant.id]">{{ i + 1 }}</td>
-        <td [routerLink]="['/postulants', postulant.id]">{{ postulant.fullName }}</td>
-        <td class="hide-on-small-only" [routerLink]="['/postulants', postulant.id]">{{ postulant.institution }}</td>
-        <td class="hide-on-small-only" [routerLink]="['/postulants', postulant.id]">{{ postulant.age }}</td>
-        <td class="hide-on-small-only" [routerLink]="['/postulants', postulant.id]">{{ postulant.phone }}</td>
+        <td>
+          <a [routerLink]="['/postulants', postulant.id]" target="_blank">{{ i + 1 }}</a>
+        </td>
+        <td>
+          <a [routerLink]="['/postulants', postulant.id]" target="_blank">{{ postulant.fullName }}</a>
+        </td>
+        <td class="hide-on-small-only">
+          <a [routerLink]="['/postulants', postulant.id]" target="_blank">{{ postulant.institution }}</a>
+        </td>
+        <td class="hide-on-small-only">
+          <a [routerLink]="['/postulants', postulant.id]" target="_blank">{{ postulant.age }}</a>
+        </td>
+        <td class="hide-on-small-only">
+          <a [routerLink]="['/postulants', postulant.id]" target="_blank">{{ postulant.phone }}</a>
+        </td>
         <td class="center-align">
           <label>
             <input type="checkbox" [checked]="postulant.accepted"
