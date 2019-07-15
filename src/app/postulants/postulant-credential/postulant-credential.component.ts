@@ -3,7 +3,10 @@ import {
   ViewChild,
   ElementRef,
   Input,
-  OnChanges
+  OnChanges,
+  Output,
+  EventEmitter,
+  OnInit
 } from '@angular/core';
 
 import { QRCodeComponent } from 'angularx-qrcode';
@@ -15,8 +18,9 @@ import { Postulant } from '../../shared/models/postulant.model';
   templateUrl: './postulant-credential.component.html',
   styleUrls: ['./postulant-credential.component.scss']
 })
-export class PostulantCredentialComponent implements OnChanges {
+export class PostulantCredentialComponent implements OnInit, OnChanges {
   qrData = 'QR was not generated yet';
+  @Output() credentialLoaded = new EventEmitter();
   @Input() canvasWidth: number;
   @Input() canvasHeight: number;
   @Input() postulant: Postulant;
@@ -25,15 +29,28 @@ export class PostulantCredentialComponent implements OnChanges {
   @ViewChild('qrCode', { static: true })
   private qrCode: QRCodeComponent;
 
-  constructor() {}
+  ngOnInit(): void {
+    this.credentialLoaded.emit();
+  }
 
   ngOnChanges(): void {
     this.loadCredential();
   }
 
+  print(): void {
+    const printButton = document.createElement('a');
+    printButton.download = this.postulant.fullName;
+    printButton.href = this.credentialCanvas.nativeElement.toDataURL(
+      'image/png;base64'
+    );
+    printButton.click();
+  }
+
   private loadCredential(): void {
     if (this.postulant) {
-      this.qrData = JSON.stringify(this.postulant);
+      this.qrData = `${this.postulant.id} | ${this.postulant.fullName} | ${
+        this.postulant.email
+      }`;
       const context = (this.credentialCanvas
         .nativeElement as HTMLCanvasElement).getContext('2d');
       const templateImage = new Image();

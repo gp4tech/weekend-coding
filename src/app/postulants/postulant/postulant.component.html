@@ -36,14 +36,18 @@
     <div class="modal-content">
       <h4>Print Credential</h4>
       <div *ngIf="postulant.accepted" class="center-align">
-        <wc-postulant-credential [postulant]="postulant" canvasWidth="391" canvasHeight="636"></wc-postulant-credential>
+        <wc-postulant-credential #credential [postulant]="postulant"
+          (credentialLoaded)="setPostulantCredential(credential)" canvasWidth="391" canvasHeight="636">
+        </wc-postulant-credential>
       </div>
       <div *ngIf="!postulant.accepted" class="center-align">
         <p>This postulant was not accepted. The credentials were not generated.</p>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="modal-close waves-effect waves-light btn" [disabled]="!postulant.accepted">Print</button>
+      <button class="modal-close waves-effect waves-light btn ok-btn" [disabled]="!postulant.accepted"
+        (click)="printCredential()">Print</button>
+      <button class="modal-close waves-effect waves-light btn cancel-btn">Cancel</button>
     </div>
   </ng-container>
 </div>
