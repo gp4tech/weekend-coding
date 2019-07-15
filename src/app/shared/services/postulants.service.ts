@@ -1,14 +1,28 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 
-import { DataService } from '../shared/models/data-service.model';
-import { Postulant } from '../shared/models/postulant.model';
-import { FirestoreCollection } from '../shared/models/firestore-collection.enum';
+import { Observable } from 'rxjs';
+
+import { DataService } from '../models/data-service.model';
+import { Postulant } from '../models/postulant.model';
+import { FirestoreCollection } from '../models/firestore-collection.enum';
+import { DataOrder } from '../models/data-order.enum';
 
 @Injectable()
 export class PostulantsService extends DataService<Postulant> {
   constructor(db: AngularFirestore) {
     super(db, FirestoreCollection.postulants);
+  }
+
+  getAcceptedPostulants(): Observable<Postulant[]> {
+    return this.db
+      .collection<Postulant>(this.collection, ref =>
+        ref
+          .where('deleteFlag', '==', false)
+          .where('accepted', '==', true)
+          .orderBy('fullName', DataOrder.asc)
+      )
+      .valueChanges();
   }
 
   acceptPostulant(postulant: Postulant): void {

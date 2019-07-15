@@ -3,8 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
-import { PostulantsService } from '../postulants.service';
-import { PostulantCredentialComponent } from '../postulant-credential/postulant-credential.component';
+import { PostulantCredentialComponent } from '../../shared/components/postulant-credential/postulant-credential.component';
+import { PostulantsService } from '../../shared/services/postulants.service';
 import { Postulant } from '../../shared/models/postulant.model';
 
 @Component({
