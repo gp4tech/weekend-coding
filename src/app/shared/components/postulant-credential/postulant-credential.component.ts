@@ -11,7 +11,7 @@ import {
 
 import { QRCodeComponent } from 'angularx-qrcode';
 
-import { Postulant } from '../../shared/models/postulant.model';
+import { Postulant } from '../../models/postulant.model';
 
 @Component({
   selector: 'wc-postulant-credential',

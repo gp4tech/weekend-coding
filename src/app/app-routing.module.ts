@@ -22,6 +22,14 @@ const routes: Routes = [
         mod => mod.PostulantsModule
       ),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'credentials',
+    loadChildren: () =>
+      import('./credentials/credentials.module').then(
+        mod => mod.CredentialsModule
+      ),
+    canActivate: [AuthGuard]
   }
 ];
 

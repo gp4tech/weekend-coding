@@ -2,26 +2,20 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { QRCodeModule } from 'angularx-qrcode';
-
 import { PostulantsRoutingModule } from './postulants-routing.module';
-import { PostulantsService } from './postulants.service';
+import { PostulantsService } from '../shared/services/postulants.service';
 import { PostulantsComponent } from './postulants.component';
 import { PostulantComponent } from './postulant/postulant.component';
-import { PostulantCredentialComponent } from './postulant-credential/postulant-credential.component';
+import { PostulantCredentialModule } from '../shared/components/postulant-credential/postulant-credential.module';
 import { ModalModule } from '../shared/directives/modal/modal.module';
 
 @NgModule({
-  declarations: [
-    PostulantsComponent,
-    PostulantComponent,
-    PostulantCredentialComponent
-  ],
+  declarations: [PostulantsComponent, PostulantComponent],
   imports: [
     CommonModule,
     RouterModule,
-    QRCodeModule,
     PostulantsRoutingModule,
+    PostulantCredentialModule,
     ModalModule
   ],
   providers: [PostulantsService]

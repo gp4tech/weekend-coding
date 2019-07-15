@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { PostulantsService } from './postulants.service';
+import { PostulantsService } from '../shared/services/postulants.service';
 import { Postulant } from '../shared/models/postulant.model';
 import { DataOrder } from '../shared/models/data-order.enum';
 
