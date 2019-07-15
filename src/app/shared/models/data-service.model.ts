@@ -4,11 +4,11 @@ import {
 } from '@angular/fire/firestore';
 
 import { Observable, from, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { DataType } from './data-type.model';
 import { DataOrder } from './data-order.enum';
 import { FirestoreCollection } from './firestore-collection.enum';
-import { map } from 'rxjs/operators';
 
 export abstract class DataService<T extends DataType> {
   dataCollection: AngularFirestoreCollection<T>;
