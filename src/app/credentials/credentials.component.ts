@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import * as jsPDF from 'jspdf';
 
 import { PostulantsService } from '../shared/services/postulants.service';
 import { Postulant } from '../shared/models/postulant.model';
+import { PostulantCredentialComponent } from '../shared/components/postulant-credential/postulant-credential.component';
 
 @Component({
   selector: 'wc-credentials',
@@ -13,6 +14,8 @@ import { Postulant } from '../shared/models/postulant.model';
 })
 export class CredentialsComponent implements OnInit {
   assistants$: Observable<Postulant[]>;
+  @ViewChild('credentialsParent', { static: true })
+  credentialsParent: ElementRef;
 
   constructor(private postulantsService: PostulantsService) {}
 
@@ -21,6 +24,15 @@ export class CredentialsComponent implements OnInit {
   }
 
   printCredentials(): void {
+    const credentials = this.credentialsParent.nativeElement.children;
+
+    for (let i = 0; i < credentials.length; i++) {
+      const current = credentials.item(i) as PostulantCredentialComponent;
+      // console.log(current);
+      // console.log(current.credentialCanvas);
+      // console.log(current.canvasWidth);
+    }
+
     const pdf = new jsPDF();
     pdf.text('Hello world!', 10, 10);
     pdf.save('a4.pdf');
