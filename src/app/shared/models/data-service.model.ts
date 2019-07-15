@@ -34,9 +34,11 @@ export abstract class DataService<T extends DataType> {
     return this.db
       .collection<T>(this.collection, ref => {
         let query = ref.where('deleteFlag', '==', false).orderBy(field, order);
+
         if (maxLimit) {
           query = query.limit(maxLimit);
         }
+
         return query;
       })
       .valueChanges();
@@ -59,6 +61,7 @@ export abstract class DataService<T extends DataType> {
 
   upsertData(data: T): Observable<void> {
     let id = data.id;
+
     if (!id) {
       id = this.db.createId();
       data.id = id;
@@ -72,6 +75,7 @@ export abstract class DataService<T extends DataType> {
       data.deleteFlag = true;
       return this.upsertData(data);
     }
+
     return of();
   }
 }
