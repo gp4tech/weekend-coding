@@ -48,9 +48,7 @@ export class PostulantCredentialComponent implements OnInit, OnChanges {
 
   private loadCredential(): void {
     if (this.postulant) {
-      this.qrData = `${this.postulant.id} | ${this.postulant.fullName} | ${
-        this.postulant.email
-      }`;
+      this.qrData = this.postulant.id;
       const context = (this.credentialCanvas
         .nativeElement as HTMLCanvasElement).getContext('2d');
       const templateImage = new Image();
