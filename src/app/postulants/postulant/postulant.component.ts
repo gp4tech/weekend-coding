@@ -19,9 +19,9 @@ export class PostulantComponent implements OnInit, OnDestroy {
   credential: PostulantCredentialComponent;
 
   constructor(
+    public postulantService: PostulantsService,
     private route: ActivatedRoute,
-    private router: Router,
-    private postulantService: PostulantsService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -40,11 +40,6 @@ export class PostulantComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.postulantSubscription.unsubscribe();
-  }
-
-  acceptPostulant(postulant: Postulant): void {
-    postulant.accepted = !postulant.accepted;
-    this.postulantService.upsertData(postulant);
   }
 
   setPostulantCredential(credential: PostulantCredentialComponent): void {

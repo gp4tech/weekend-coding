@@ -15,7 +15,7 @@ export class PostulantsComponent implements OnInit {
   postulants$: Observable<Postulant[]>;
   selectedPostulant: Postulant;
 
-  constructor(private postulantService: PostulantsService) {}
+  constructor(public postulantService: PostulantsService) {}
 
   ngOnInit(): void {
     this.postulants$ = this.postulantService.getAllSorted(
@@ -24,16 +24,7 @@ export class PostulantsComponent implements OnInit {
     );
   }
 
-  acceptPostulant(postulant: Postulant): void {
-    postulant.accepted = !postulant.accepted;
-    this.postulantService.upsertData(postulant);
-  }
-
   setSelectedPostulant(postulant: Postulant): void {
     this.selectedPostulant = postulant;
-  }
-
-  deleteSelectedPostulant(): void {
-    this.postulantService.deleteData(this.selectedPostulant);
   }
 }

@@ -8,6 +8,8 @@
         <th class="hide-on-small-only">Age</th>
         <th class="hide-on-small-only">Phone</th>
         <th>Accept</th>
+        <th>Sent</th>
+        <th>Confirmed</th>
         <th></th>
       </tr>
     </thead>
@@ -21,7 +23,23 @@
         <td class="hide-on-small-only" [routerLink]="['/postulants', postulant.id]">{{ postulant.phone }}</td>
         <td class="center-align">
           <label>
-            <input type="checkbox" [checked]="postulant.accepted" (change)="acceptPostulant(postulant)">
+            <input type="checkbox" [checked]="postulant.accepted"
+              (change)="postulantService.acceptPostulant(postulant)">
+            <span></span>
+          </label>
+        </td>
+        <td class="center-align">
+          <label>
+            <input type="checkbox" [checked]="postulant.credentialSent" [disabled]="!postulant.accepted"
+              (change)="postulantService.markCredentialAsSent(postulant)">
+            <span></span>
+          </label>
+        </td>
+        <td class="center-align">
+          <label>
+            <input type="checkbox" [checked]="postulant.confirmedAssistant"
+              [disabled]="!postulant.accepted || !postulant.credentialSent"
+              (change)="postulantService.confirmPostulantAssistance(postulant)">
             <span></span>
           </label>
         </td>
@@ -47,7 +65,7 @@
       <button class="modal-close waves-effect waves-light btn ok-btn"
         (click)="setSelectedPostulant(null)">Cancel</button>
       <button class="modal-close waves-effect waves-light btn cancel-btn"
-        (click)="deleteSelectedPostulant()">Delete</button>
+        (click)="postulantService.deleteData(selectedPostulant)">Delete</button>
     </div>
   </ng-container>
 </div>

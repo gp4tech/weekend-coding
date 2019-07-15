@@ -10,4 +10,6 @@ export interface Postulant extends DataType {
   phone: string;
   reason: string;
   accepted?: boolean;
+  credentialSent?: boolean;
+  confirmedAssistant?: boolean;
 }
