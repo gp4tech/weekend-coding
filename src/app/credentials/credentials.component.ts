@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import * as jsPDF from 'jspdf';
@@ -14,8 +14,8 @@ import { PostulantCredentialComponent } from '../shared/components/postulant-cre
 })
 export class CredentialsComponent implements OnInit {
   assistants$: Observable<Postulant[]>;
-  @ViewChild('credentialsParent', { static: true })
-  credentialsParent: ElementRef;
+  @ViewChildren('credential')
+  credentials: QueryList<PostulantCredentialComponent>;
 
   constructor(private postulantsService: PostulantsService) {}
 
@@ -24,17 +24,30 @@ export class CredentialsComponent implements OnInit {
   }
 
   printCredentials(): void {
-    const credentials = this.credentialsParent.nativeElement.children;
+    const firstCredential: PostulantCredentialComponent = this.credentials
+      .first;
+    const lastCredential: PostulantCredentialComponent = this.credentials.last;
+    const firstCredentialData = firstCredential.credentialCanvas.nativeElement.toDataURL(
+      'image/jpeg',
+      1.0
+    );
+    const lastCredentialData = lastCredential.credentialCanvas.nativeElement.toDataURL(
+      'image/jpeg',
+      1.0
+    );
 
-    for (let i = 0; i < credentials.length; i++) {
-      const current = credentials.item(i) as PostulantCredentialComponent;
-      // console.log(current);
-      // console.log(current.credentialCanvas);
-      // console.log(current.canvasWidth);
-    }
+    const pdf = new jsPDF('p', 'pt', 'legal');
+    pdf.addImage(firstCredentialData, 'JPEG', 6, 20);
+    pdf.addImage(lastCredentialData, 'JPEG', 311, 20);
+    pdf.addImage(firstCredentialData, 'JPEG', 6, 525);
+    pdf.addImage(lastCredentialData, 'JPEG', 311, 525);
 
-    const pdf = new jsPDF();
-    pdf.text('Hello world!', 10, 10);
-    pdf.save('a4.pdf');
+    pdf.addPage();
+
+    pdf.addImage(firstCredentialData, 'JPEG', 6, 20);
+    pdf.addImage(lastCredentialData, 'JPEG', 311, 20);
+    pdf.addImage(firstCredentialData, 'JPEG', 6, 525);
+    pdf.addImage(lastCredentialData, 'JPEG', 311, 525);
+    pdf.save('test.pdf');
   }
 }
