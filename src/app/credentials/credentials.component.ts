@@ -53,6 +53,6 @@ export class CredentialsComponent implements OnInit {
       }
     });
 
-    pdf.save('test.pdf');
+    pdf.save('wc-credentials.pdf');
   }
 }
