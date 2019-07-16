@@ -25,7 +25,7 @@ export class PostulantCredentialComponent implements OnInit, OnChanges {
   @Input() canvasHeight: number;
   @Input() postulant: Postulant;
   @ViewChild('credentialCanvas', { static: true })
-  private credentialCanvas: ElementRef;
+  credentialCanvas: ElementRef;
   @ViewChild('qrCode', { static: true })
   private qrCode: QRCodeComponent;
 
