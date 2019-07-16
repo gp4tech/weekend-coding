@@ -46,14 +46,14 @@
         <td class="center-align">
           <label>
             <input type="checkbox" [checked]="postulant.accepted"
-              (change)="postulantService.acceptPostulant(postulant)">
+              (change)="postulantsService.acceptPostulant(postulant)">
             <span></span>
           </label>
         </td>
         <td class="center-align">
           <label>
             <input type="checkbox" [checked]="postulant.credentialSent" [disabled]="!postulant.accepted"
-              (change)="postulantService.markCredentialAsSent(postulant)">
+              (change)="postulantsService.markCredentialAsSent(postulant)">
             <span></span>
           </label>
         </td>
@@ -61,7 +61,7 @@
           <label>
             <input type="checkbox" [checked]="postulant.confirmedAssistant"
               [disabled]="!postulant.accepted || !postulant.credentialSent"
-              (change)="postulantService.confirmPostulantAssistance(postulant)">
+              (change)="postulantsService.confirmPostulantAssistance(postulant)">
             <span></span>
           </label>
         </td>
@@ -87,7 +87,7 @@
       <button class="modal-close waves-effect waves-light btn ok-btn"
         (click)="setSelectedPostulant(null)">Cancel</button>
       <button class="modal-close waves-effect waves-light btn cancel-btn"
-        (click)="postulantService.deleteData(selectedPostulant)">Delete</button>
+        (click)="postulantsService.deleteData(selectedPostulant)">Delete</button>
     </div>
   </ng-container>
 </div>

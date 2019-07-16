@@ -7,6 +7,12 @@ import { PostulantsService } from '../shared/services/postulants.service';
 import { Postulant } from '../shared/models/postulant.model';
 import { PostulantCredentialComponent } from '../shared/components/postulant-credential/postulant-credential.component';
 
+const firstLineTop = 20;
+const secondLineTop = 525;
+const firstItemLeft = 6;
+const secondItemLeft = 311;
+const JPEG = 'JPEG';
+
 @Component({
   selector: 'wc-credentials',
   templateUrl: './credentials.component.html',
@@ -14,7 +20,7 @@ import { PostulantCredentialComponent } from '../shared/components/postulant-cre
 })
 export class CredentialsComponent implements OnInit {
   assistants$: Observable<Postulant[]>;
-  @ViewChildren('credential')
+  @ViewChildren('credentials')
   credentials: QueryList<PostulantCredentialComponent>;
 
   constructor(private postulantsService: PostulantsService) {}
@@ -37,16 +43,16 @@ export class CredentialsComponent implements OnInit {
 
       switch (counter) {
         case 1:
-          pdf.addImage(credentialData, 'JPEG', 6, 20);
+          pdf.addImage(credentialData, JPEG, firstItemLeft, firstLineTop);
           break;
         case 2:
-          pdf.addImage(credentialData, 'JPEG', 311, 20);
+          pdf.addImage(credentialData, JPEG, secondItemLeft, firstLineTop);
           break;
         case 3:
-          pdf.addImage(credentialData, 'JPEG', 6, 525);
+          pdf.addImage(credentialData, JPEG, firstItemLeft, secondLineTop);
           break;
         case 4:
-          pdf.addImage(credentialData, 'JPEG', 311, 525);
+          pdf.addImage(credentialData, JPEG, secondItemLeft, secondLineTop);
           pdf.addPage();
           counter = 0;
           break;
