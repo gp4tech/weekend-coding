@@ -2,13 +2,18 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 
+import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 
-import { Observable } from 'rxjs';
+import { AuthUserService } from './auth-user.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private afAuth: AngularFireAuth, private router: Router) {}
+  constructor(
+    private afAuth: AngularFireAuth,
+    private router: Router,
+    private userService: AuthUserService
+  ) {}
 
   getAuthState(): Observable<any> {
     return this.afAuth.authState.pipe(first());
@@ -17,8 +22,9 @@ export class AuthService {
   login(email: string, password: string): void {
     this.afAuth.auth
       .signInWithEmailAndPassword(email, password)
-      .then(_ => {
-        this.router.navigate(['/postulants']);
+      .then(credential => {
+        this.userService.assertAuthUser(credential.user);
+        this.router.navigate(['/']);
       })
       .catch(err => {
         this.handleError(err);
