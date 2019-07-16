@@ -7,6 +7,12 @@ import { PostulantsService } from '../shared/services/postulants.service';
 import { Postulant } from '../shared/models/postulant.model';
 import { PostulantCredentialComponent } from '../shared/components/postulant-credential/postulant-credential.component';
 
+const firstLineTop = 20;
+const secondLineTop = 525;
+const firstItemRight = 6;
+const secondItemRight = 311;
+const JPEG = 'JPEG';
+
 @Component({
   selector: 'wc-credentials',
   templateUrl: './credentials.component.html',
@@ -37,16 +43,16 @@ export class CredentialsComponent implements OnInit {
 
       switch (counter) {
         case 1:
-          pdf.addImage(credentialData, 'JPEG', 6, 20);
+          pdf.addImage(credentialData, JPEG, firstItemRight, firstLineTop);
           break;
         case 2:
-          pdf.addImage(credentialData, 'JPEG', 311, 20);
+          pdf.addImage(credentialData, JPEG, secondItemRight, firstLineTop);
           break;
         case 3:
-          pdf.addImage(credentialData, 'JPEG', 6, 525);
+          pdf.addImage(credentialData, JPEG, firstItemRight, secondLineTop);
           break;
         case 4:
-          pdf.addImage(credentialData, 'JPEG', 311, 525);
+          pdf.addImage(credentialData, JPEG, secondItemRight, secondLineTop);
           pdf.addPage();
           counter = 0;
           break;
