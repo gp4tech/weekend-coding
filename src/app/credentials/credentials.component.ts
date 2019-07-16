@@ -9,8 +9,8 @@ import { PostulantCredentialComponent } from '../shared/components/postulant-cre
 
 const firstLineTop = 20;
 const secondLineTop = 525;
-const firstItemRight = 6;
-const secondItemRight = 311;
+const firstItemLeft = 6;
+const secondItemLeft = 311;
 const JPEG = 'JPEG';
 
 @Component({
@@ -20,7 +20,7 @@ const JPEG = 'JPEG';
 })
 export class CredentialsComponent implements OnInit {
   assistants$: Observable<Postulant[]>;
-  @ViewChildren('credential')
+  @ViewChildren('credentials')
   credentials: QueryList<PostulantCredentialComponent>;
 
   constructor(private postulantsService: PostulantsService) {}
@@ -43,16 +43,16 @@ export class CredentialsComponent implements OnInit {
 
       switch (counter) {
         case 1:
-          pdf.addImage(credentialData, JPEG, firstItemRight, firstLineTop);
+          pdf.addImage(credentialData, JPEG, firstItemLeft, firstLineTop);
           break;
         case 2:
-          pdf.addImage(credentialData, JPEG, secondItemRight, firstLineTop);
+          pdf.addImage(credentialData, JPEG, secondItemLeft, firstLineTop);
           break;
         case 3:
-          pdf.addImage(credentialData, JPEG, firstItemRight, secondLineTop);
+          pdf.addImage(credentialData, JPEG, firstItemLeft, secondLineTop);
           break;
         case 4:
-          pdf.addImage(credentialData, JPEG, secondItemRight, secondLineTop);
+          pdf.addImage(credentialData, JPEG, secondItemLeft, secondLineTop);
           pdf.addPage();
           counter = 0;
           break;
