@@ -15,10 +15,10 @@ export class PostulantsComponent implements OnInit {
   postulants$: Observable<Postulant[]>;
   selectedPostulant: Postulant;
 
-  constructor(public postulantService: PostulantsService) {}
+  constructor(public postulantsService: PostulantsService) {}
 
   ngOnInit(): void {
-    this.postulants$ = this.postulantService.getAllSorted(
+    this.postulants$ = this.postulantsService.getAllSorted(
       'fullName',
       DataOrder.asc
     );

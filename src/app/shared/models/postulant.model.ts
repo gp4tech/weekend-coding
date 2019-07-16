@@ -12,4 +12,11 @@ export interface Postulant extends DataType {
   accepted?: boolean;
   credentialSent?: boolean;
   confirmedAssistant?: boolean;
+  checkIn?: boolean;
+  feeForLunchReceived?: boolean;
+  lunchDelivered?: boolean;
+  firstSnackDelivered?: boolean;
+  secondSnackDelivered?: boolean;
+  visibleInSearch?: boolean;
+  accumulatedPoints?: number;
 }

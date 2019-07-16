@@ -43,4 +43,39 @@ export class PostulantsService extends DataService<Postulant> {
       this.upsertData(postulant);
     }
   }
+
+  checkInAssistant(postulant: Postulant): void {
+    if (postulant.accepted) {
+      postulant.checkIn = !postulant.checkIn;
+      this.upsertData(postulant);
+    }
+  }
+
+  markFeeForLunchAsReceived(postulant: Postulant): void {
+    if (postulant.accepted && postulant.checkIn) {
+      postulant.feeForLunchReceived = !postulant.feeForLunchReceived;
+      this.upsertData(postulant);
+    }
+  }
+
+  markLunchAsDelivered(postulant: Postulant): void {
+    if (postulant.accepted && postulant.checkIn) {
+      postulant.lunchDelivered = !postulant.lunchDelivered;
+      this.upsertData(postulant);
+    }
+  }
+
+  markFirstSnackAsDelivered(postulant: Postulant): void {
+    if (postulant.accepted && postulant.checkIn) {
+      postulant.firstSnackDelivered = !postulant.firstSnackDelivered;
+      this.upsertData(postulant);
+    }
+  }
+
+  markSecondSnackAsDelivered(postulant: Postulant): void {
+    if (postulant.accepted && postulant.checkIn) {
+      postulant.secondSnackDelivered = !postulant.secondSnackDelivered;
+      this.upsertData(postulant);
+    }
+  }
 }

@@ -19,7 +19,7 @@ export class PostulantComponent implements OnInit, OnDestroy {
   credential: PostulantCredentialComponent;
 
   constructor(
-    public postulantService: PostulantsService,
+    public postulantsService: PostulantsService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -27,7 +27,7 @@ export class PostulantComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.postulantId = this.route.snapshot.paramMap.get('id');
 
-    this.postulantSubscription = this.postulantService
+    this.postulantSubscription = this.postulantsService
       .getById(this.postulantId)
       .subscribe(postulant => {
         if (postulant) {

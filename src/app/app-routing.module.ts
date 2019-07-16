@@ -24,6 +24,14 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'assistants',
+    loadChildren: () =>
+      import('./assistants/assistants.module').then(
+        mod => mod.AssistantsModule
+      ),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'credentials',
     loadChildren: () =>
       import('./credentials/credentials.module').then(
