@@ -24,30 +24,35 @@ export class CredentialsComponent implements OnInit {
   }
 
   printCredentials(): void {
-    const firstCredential: PostulantCredentialComponent = this.credentials
-      .first;
-    const lastCredential: PostulantCredentialComponent = this.credentials.last;
-    const firstCredentialData = firstCredential.credentialCanvas.nativeElement.toDataURL(
-      'image/jpeg',
-      1.0
-    );
-    const lastCredentialData = lastCredential.credentialCanvas.nativeElement.toDataURL(
-      'image/jpeg',
-      1.0
-    );
-
     const pdf = new jsPDF('p', 'pt', 'legal');
-    pdf.addImage(firstCredentialData, 'JPEG', 6, 20);
-    pdf.addImage(lastCredentialData, 'JPEG', 311, 20);
-    pdf.addImage(firstCredentialData, 'JPEG', 6, 525);
-    pdf.addImage(lastCredentialData, 'JPEG', 311, 525);
+    let counter = 0;
 
-    pdf.addPage();
+    this.credentials.forEach(credential => {
+      counter++;
 
-    pdf.addImage(firstCredentialData, 'JPEG', 6, 20);
-    pdf.addImage(lastCredentialData, 'JPEG', 311, 20);
-    pdf.addImage(firstCredentialData, 'JPEG', 6, 525);
-    pdf.addImage(lastCredentialData, 'JPEG', 311, 525);
+      const credentialData = credential.credentialCanvas.nativeElement.toDataURL(
+        'image/jpeg',
+        1.0
+      );
+
+      switch (counter) {
+        case 1:
+          pdf.addImage(credentialData, 'JPEG', 6, 20);
+          break;
+        case 2:
+          pdf.addImage(credentialData, 'JPEG', 311, 20);
+          break;
+        case 3:
+          pdf.addImage(credentialData, 'JPEG', 6, 525);
+          break;
+        case 4:
+          pdf.addImage(credentialData, 'JPEG', 311, 525);
+          pdf.addPage();
+          counter = 0;
+          break;
+      }
+    });
+
     pdf.save('test.pdf');
   }
 }
