@@ -25,6 +25,18 @@ export class PostulantsService extends DataService<Postulant> {
       .valueChanges();
   }
 
+  getConfirmedPostulants(): Observable<Postulant[]> {
+    return this.db
+      .collection<Postulant>(this.collection, ref =>
+        ref
+          .where('deleteFlag', '==', false)
+          .where('accepted', '==', true)
+          .where('confirmedAssistant', '==', true)
+          .orderBy('fullName', DataOrder.asc)
+      )
+      .valueChanges();
+  }
+
   acceptPostulant(postulant: Postulant): void {
     postulant.accepted = !postulant.accepted;
     this.upsertData(postulant);
