@@ -2,23 +2,38 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 
-import { first } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
-import { Observable } from 'rxjs';
+import { AuthUserService } from './auth-user.service';
+import { AuthUser } from '../shared/models/auth-user.model';
 
 @Injectable()
 export class AuthService {
-  constructor(private afAuth: AngularFireAuth, private router: Router) {}
+  constructor(
+    private afAuth: AngularFireAuth,
+    private router: Router,
+    private userService: AuthUserService
+  ) {}
 
-  getAuthState(): Observable<any> {
-    return this.afAuth.authState.pipe(first());
+  getCurrentUser(): Observable<AuthUser> {
+    return this.afAuth.authState.pipe(
+      switchMap(user => {
+        if (user) {
+          return this.userService.getById(user.uid);
+        }
+
+        return of(null);
+      })
+    );
   }
 
   login(email: string, password: string): void {
     this.afAuth.auth
       .signInWithEmailAndPassword(email, password)
-      .then(_ => {
-        this.router.navigate(['/postulants']);
+      .then(credential => {
+        this.userService.assertAuthUser(credential.user);
+        this.router.navigate(['/']);
       })
       .catch(err => {
         this.handleError(err);
