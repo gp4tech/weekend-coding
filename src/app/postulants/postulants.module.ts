@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 import { PostulantsRoutingModule } from './postulants-routing.module';
 import { PostulantsService } from '../shared/services/postulants.service';
@@ -14,6 +15,7 @@ import { ModalModule } from '../shared/directives/modal/modal.module';
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
     PostulantsRoutingModule,
     PostulantCredentialModule,
     ModalModule
