@@ -59,13 +59,15 @@ export class PostulantCredentialComponent implements OnInit, OnChanges {
 
       templateImage.src = 'assets/images/cred-vertical.png';
       templateImage.onload = () => {
-        const qrImage = this.qrCode.el.nativeElement.querySelector('img');
+        setTimeout(() => {
+          const qrImage = this.qrCode.el.nativeElement.querySelector('img');
 
-        context.drawImage(templateImage, 0, 0);
-        context.font = '20px Montserrat';
-        context.textAlign = 'center';
-        context.fillText(this.postulant.fullName, nameLeft, nameTop);
-        context.drawImage(qrImage, qrLeft, qrTop);
+          context.drawImage(templateImage, 0, 0);
+          context.font = '20px Montserrat';
+          context.textAlign = 'center';
+          context.fillText(this.postulant.fullName, nameLeft, nameTop);
+          context.drawImage(qrImage, qrLeft, qrTop);
+        }, 100);
       };
     }
   }
