@@ -7,7 +7,7 @@ import {
 } from '@angular/router';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, first } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
 
@@ -19,12 +19,13 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
-    return this.auth.getAuthState().pipe(
-      map(authState => {
+    return this.auth.getCurrentUser().pipe(
+      first(),
+      map(user => {
         if (state.url === '/login') {
-          return this.checkLogIn(authState !== null, '/');
+          return this.checkLogIn(user !== null, '/');
         }
-        return this.checkLogIn(authState === null, '/login');
+        return this.checkLogIn(user === null, '/login');
       })
     );
   }

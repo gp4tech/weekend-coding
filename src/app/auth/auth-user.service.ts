@@ -10,14 +10,8 @@ import { FirestoreCollection } from '../shared/models/firestore-collection.enum'
 
 @Injectable()
 export class AuthUserService extends DataService<AuthUser> {
-  private currentUser: AuthUser;
-
   constructor(db: AngularFirestore) {
     super(db, FirestoreCollection.users);
-  }
-
-  getCurrentUser(): AuthUser {
-    return this.currentUser;
   }
 
   assertAuthUser(firebaseUser: firebase.User): void {
@@ -30,10 +24,9 @@ export class AuthUserService extends DataService<AuthUser> {
             email: firebaseUser.email,
             deleteFlag: false
           };
+
           this.upsertData(user);
         }
-
-        this.currentUser = user;
       });
   }
 }

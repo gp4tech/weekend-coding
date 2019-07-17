@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 
-import { Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { AuthUserService } from './auth-user.service';
+import { AuthUser } from '../shared/models/auth-user.model';
 
 @Injectable()
 export class AuthService {
@@ -15,8 +16,16 @@ export class AuthService {
     private userService: AuthUserService
   ) {}
 
-  getAuthState(): Observable<any> {
-    return this.afAuth.authState.pipe(first());
+  getCurrentUser(): Observable<AuthUser> {
+    return this.afAuth.authState.pipe(
+      switchMap(user => {
+        if (user) {
+          return this.userService.getById(user.uid);
+        }
+
+        return of(null);
+      })
+    );
   }
 
   login(email: string, password: string): void {
