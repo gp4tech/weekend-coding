@@ -1,0 +1,17 @@
+<div class="container">
+  <zxing-scanner [enable]="scannerEnabled" (scanSuccess)="processQRCode($event)"></zxing-scanner>
+</div>
+
+<div #postulantProcessedModal=modalDirective wcModal (modalClose)="enableScanner()" class="modal">
+  <div class="modal-content">
+    <h4>Postulant was processed</h4>
+    <ng-container *ngIf="postulant">
+      <div class="center-align">
+        <p>{{ postulant.fullName }}</p>
+      </div>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <button class="modal-close waves-effect waves-light btn ok-btn">Ok</button>
+  </div>
+</div>
