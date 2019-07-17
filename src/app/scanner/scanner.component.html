@@ -1,19 +1,28 @@
 <div class="container">
-  <div class="row">
-    <div class="input-field col s12 m4">
-      <select wcSelect [(ngModel)]="selectedItemForScan">
-        <option value="" disabled selected>Choose an option</option>
-        <option value="checkIn">CheckIn</option>
-        <option value="feeForLunchReceived">FeeForLunch</option>
-        <option value="firstSnackDelivered">Snack#1</option>
-        <option value="lunchDelivered">Lunch</option>
-        <option value="secondSnackDelivered">Snack#2</option>
-        <option value="teachersWhoGavePoints">Points</option>
-      </select>
-      <label>Materialize Select</label>
+  <div class="row postulant">
+    <div class="col s12 postulant-header">
+      <div class="row">
+        <div class="col s12 m9">
+          <h3>Scanner</h3>
+        </div>
+        <div class="input-field col s12 m3">
+          <select wcSelect [(ngModel)]="selectedItemForScan">
+            <option value="" disabled selected>Choose an option</option>
+            <option value="checkIn">CheckIn</option>
+            <option value="feeForLunchReceived">FeeForLunch</option>
+            <option value="firstSnackDelivered">Snack#1</option>
+            <option value="lunchDelivered">Lunch</option>
+            <option value="secondSnackDelivered">Snack#2</option>
+            <option value="teachersWhoGavePoints">Points</option>
+          </select>
+          <label></label>
+        </div>
+      </div>
     </div>
   </div>
-  <zxing-scanner (scanSuccess)="processQRCode($event)"></zxing-scanner>
+  <div class="row">
+    <zxing-scanner (scanSuccess)="processQRCode($event)"></zxing-scanner>
+  </div>
 </div>
 
 <div #postulantProcessedModal=modalDirective wcModal (modalClose)="cleanData()" class="modal">
@@ -21,6 +30,7 @@
     <h4>Postulant was processed</h4>
     <ng-container *ngIf="postulant">
       <div class="center-align">
+        <p>{{ modalMessage }}</p>
         <p>{{ postulant.fullName }}</p>
       </div>
     </ng-container>
