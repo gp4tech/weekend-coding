@@ -11,6 +11,12 @@
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="input-field col s12 m4">
+      <input type="text" name="search" class="form-control" placeholder="Search postulants" [(ngModel)]="searchTerm"
+        (ngModelChange)="searchPostulant()">
+    </div>
+  </div>
   <table class="highlight">
     <thead>
       <tr>
@@ -27,49 +33,51 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let postulant of postulants$ | async; index as i" class="postulant-row">
-        <td>
-          <a [routerLink]="['/postulants', postulant.id]" target="_postulant">{{ i + 1 }}</a>
-        </td>
-        <td>
-          <a [routerLink]="['/postulants', postulant.id]" target="_postulant">{{ postulant.fullName }}</a>
-        </td>
-        <td class="hide-on-small-only">
-          <a [routerLink]="['/postulants', postulant.id]" target="_postulant">{{ postulant.institution }}</a>
-        </td>
-        <td class="hide-on-small-only">
-          <a [routerLink]="['/postulants', postulant.id]" target="_postulant">{{ postulant.age }}</a>
-        </td>
-        <td class="hide-on-small-only">
-          <a [routerLink]="['/postulants', postulant.id]" target="_postulant">{{ postulant.phone }}</a>
-        </td>
-        <td class="center-align">
-          <label>
-            <input type="checkbox" [checked]="postulant.accepted"
-              (change)="postulantsService.acceptPostulant(postulant)">
-            <span></span>
-          </label>
-        </td>
-        <td class="center-align">
-          <label>
-            <input type="checkbox" [checked]="postulant.credentialSent" [disabled]="!postulant.accepted"
-              (change)="postulantsService.markCredentialAsSent(postulant)">
-            <span></span>
-          </label>
-        </td>
-        <td class="center-align">
-          <label>
-            <input type="checkbox" [checked]="postulant.confirmedAssistant"
-              [disabled]="!postulant.accepted || !postulant.credentialSent"
-              (change)="postulantsService.confirmPostulantAssistance(postulant)">
-            <span></span>
-          </label>
-        </td>
-        <td>
-          <a class="modal-trigger" href="#delete-postulant" (click)="setSelectedPostulant(postulant)">
-            <i class="fas fa-trash-alt"></i>
-          </a>
-        </td>
+      <tr *ngFor="let postulant of postulants; index as i" class="postulant-row">
+        <ng-container *ngIf="postulant.visibleInSearch">
+          <td>
+            <a [routerLink]="['/postulants', postulant.id]" target="_postulant">{{ i + 1 }}</a>
+          </td>
+          <td>
+            <a [routerLink]="['/postulants', postulant.id]" target="_postulant">{{ postulant.fullName }}</a>
+          </td>
+          <td class="hide-on-small-only">
+            <a [routerLink]="['/postulants', postulant.id]" target="_postulant">{{ postulant.institution }}</a>
+          </td>
+          <td class="hide-on-small-only">
+            <a [routerLink]="['/postulants', postulant.id]" target="_postulant">{{ postulant.age }}</a>
+          </td>
+          <td class="hide-on-small-only">
+            <a [routerLink]="['/postulants', postulant.id]" target="_postulant">{{ postulant.phone }}</a>
+          </td>
+          <td class="center-align">
+            <label>
+              <input type="checkbox" [checked]="postulant.accepted"
+                (change)="postulantsService.acceptPostulant(postulant)">
+              <span></span>
+            </label>
+          </td>
+          <td class="center-align">
+            <label>
+              <input type="checkbox" [checked]="postulant.credentialSent" [disabled]="!postulant.accepted"
+                (change)="postulantsService.markCredentialAsSent(postulant)">
+              <span></span>
+            </label>
+          </td>
+          <td class="center-align">
+            <label>
+              <input type="checkbox" [checked]="postulant.confirmedAssistant"
+                [disabled]="!postulant.accepted || !postulant.credentialSent"
+                (change)="postulantsService.confirmPostulantAssistance(postulant)">
+              <span></span>
+            </label>
+          </td>
+          <td>
+            <a class="modal-trigger" href="#delete-postulant" (click)="setSelectedPostulant(postulant)">
+              <i class="fas fa-trash-alt"></i>
+            </a>
+          </td>
+        </ng-container>
       </tr>
     </tbody>
   </table>
