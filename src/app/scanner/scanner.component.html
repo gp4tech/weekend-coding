@@ -1,8 +1,22 @@
 <div class="container">
-  <zxing-scanner [enable]="scannerEnabled" (scanSuccess)="processQRCode($event)"></zxing-scanner>
+  <div class="row">
+    <div class="input-field col s12 m4">
+      <select wcSelect [(ngModel)]="selectedItemForScan">
+        <option value="" disabled selected>Choose an option</option>
+        <option value="checkIn">CheckIn</option>
+        <option value="feeForLunchReceived">FeeForLunch</option>
+        <option value="firstSnackDelivered">Snack#1</option>
+        <option value="lunchDelivered">Lunch</option>
+        <option value="secondSnackDelivered">Snack#2</option>
+        <option value="teachersWhoGavePoints">Points</option>
+      </select>
+      <label>Materialize Select</label>
+    </div>
+  </div>
+  <zxing-scanner (scanSuccess)="processQRCode($event)"></zxing-scanner>
 </div>
 
-<div #postulantProcessedModal=modalDirective wcModal (modalClose)="enableScanner()" class="modal">
+<div #postulantProcessedModal=modalDirective wcModal (modalClose)="cleanData()" class="modal">
   <div class="modal-content">
     <h4>Postulant was processed</h4>
     <ng-container *ngIf="postulant">

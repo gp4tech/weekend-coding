@@ -19,10 +19,10 @@ export class AssistantsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.assistantsSubscription = this.postunlantsService
-      .getAcceptedPostulants()
+      .getConfirmedPostulants()
       .subscribe(assistants => {
         this.assistants = assistants;
-        this.makeAllAssistantsVisibleInSearch();
+        this.searchAssistant();
       });
   }
 
@@ -38,13 +38,9 @@ export class AssistantsComponent implements OnInit, OnDestroy {
           .includes(this.searchTerm.toLowerCase());
       });
     } else {
-      this.makeAllAssistantsVisibleInSearch();
+      this.assistants.forEach(assistant => {
+        assistant.visibleInSearch = true;
+      });
     }
-  }
-
-  private makeAllAssistantsVisibleInSearch(): void {
-    this.assistants.forEach(assistant => {
-      assistant.visibleInSearch = true;
-    });
   }
 }
