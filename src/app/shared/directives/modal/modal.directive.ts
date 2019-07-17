@@ -1,14 +1,28 @@
-import { Directive, ElementRef, OnInit } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  OnInit,
+  Output,
+  EventEmitter
+} from '@angular/core';
 
 import { Modal } from 'materialize-css';
 
 @Directive({
-  selector: '[wcModal]'
+  selector: '[wcModal]',
+  exportAs: 'modalDirective'
 })
 export class ModalDirective implements OnInit {
+  modalInstance: Modal;
+  @Output() private modalClose = new EventEmitter();
+
   constructor(private elementRef: ElementRef) {}
 
   ngOnInit(): void {
-    Modal.init(this.elementRef.nativeElement);
+    this.modalInstance = Modal.init(this.elementRef.nativeElement, {
+      onCloseEnd: () => {
+        this.modalClose.emit();
+      }
+    });
   }
 }
