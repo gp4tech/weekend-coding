@@ -31,6 +31,8 @@ export class CredentialsComponent implements OnInit {
 
   printCredentials(): void {
     const pdf = new jsPDF('p', 'pt', 'legal');
+    const quantityOfCredentials = this.credentials.length;
+    let drawCounter = 0;
     let counter = 0;
 
     this.credentials.forEach(credential => {
@@ -44,16 +46,22 @@ export class CredentialsComponent implements OnInit {
       switch (counter) {
         case 1:
           pdf.addImage(credentialData, JPEG, firstItemLeft, firstLineTop);
+          drawCounter++;
           break;
         case 2:
           pdf.addImage(credentialData, JPEG, secondItemLeft, firstLineTop);
+          drawCounter++;
           break;
         case 3:
           pdf.addImage(credentialData, JPEG, firstItemLeft, secondLineTop);
+          drawCounter++;
           break;
         case 4:
           pdf.addImage(credentialData, JPEG, secondItemLeft, secondLineTop);
-          pdf.addPage();
+          drawCounter++;
+          if (quantityOfCredentials !== drawCounter) {
+            pdf.addPage();
+          }
           counter = 0;
           break;
       }
