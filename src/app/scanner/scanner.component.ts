@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
@@ -7,18 +7,17 @@ import { PostulantsService } from '../shared/services/postulants.service';
 import { Postulant } from '../shared/models/postulant.model';
 import { ModalDirective } from '../shared/directives/modal/modal.directive';
 
-const images = {
-  info: 'assets/images/processed.png',
-  error: 'assets/images/error.png'
-};
-
 @Component({
   selector: 'wc-scanner',
   templateUrl: './scanner.component.html',
   styleUrls: ['./scanner.component.scss']
 })
-export class ScannerComponent implements OnInit, OnDestroy {
-  modalImage = images.error;
+export class ScannerComponent implements OnDestroy {
+  images = {
+    info: 'assets/images/processed.png',
+    error: 'assets/images/error.png'
+  };
+  modalImage = this.images.error;
   modalMessage: string;
   selectedItemForScan: string;
   postulantId: string;
@@ -28,8 +27,6 @@ export class ScannerComponent implements OnInit, OnDestroy {
   postulantModal: ModalDirective;
 
   constructor(private postulantsService: PostulantsService) {}
-
-  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     if (this.postulantSubscription) {
@@ -47,7 +44,14 @@ export class ScannerComponent implements OnInit, OnDestroy {
           if (postulant) {
             this.postulant = postulant;
             this.processScanSelection();
+          } else {
+            this.modalMessage = 'This does not look like a valid credential';
+            this.modalImage = this.images.error;
           }
+
+          setTimeout(() => {
+            this.postulantModal.modalInstance.open();
+          }, 100);
         });
     }
   }
@@ -67,13 +71,11 @@ export class ScannerComponent implements OnInit, OnDestroy {
       this.processScanAccordingToField();
     } else {
       this.modalMessage = 'Assistant was already checked';
-      this.modalImage = images.error;
+      this.modalImage = this.images.error;
     }
-
-    this.postulantModal.modalInstance.open();
   }
 
-  processScanAccordingToField(): boolean {
+  private processScanAccordingToField(): boolean {
     let scanCorrectly = false;
 
     switch (this.selectedItemForScan) {
@@ -123,12 +125,12 @@ export class ScannerComponent implements OnInit, OnDestroy {
         break;
     }
 
-    this.modalImage = scanCorrectly ? images.info : images.error;
+    this.modalImage = scanCorrectly ? this.images.info : this.images.error;
 
     return scanCorrectly;
   }
 
-  addPointsToAssistant(): boolean {
+  private addPointsToAssistant(): boolean {
     this.modalMessage = 'Points were given to the student';
     return true;
   }

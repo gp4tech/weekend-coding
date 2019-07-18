@@ -27,16 +27,25 @@
 
 <div #postulantProcessedModal=modalDirective wcModal (modalClose)="cleanData()" class="modal">
   <div class="modal-content">
-    <h4>Postulant was processed</h4>
     <ng-container *ngIf="postulant">
-      <div class="center-align">
-        <p>{{ modalMessage }}</p>
+      <div [ngClass]="{ 'red-text': modalImage === images.error, 'green-text': modalImage === images.info }"
+        class="center-align">
+        <h4>{{ modalMessage }}</h4>
         <img [src]="modalImage" [alt]="modalMessage">
         <p>{{ postulant.fullName }}</p>
       </div>
     </ng-container>
+    <ng-container *ngIf="!postulant">
+      <div class="red-text center-align">
+        <h4>{{ modalMessage }}</h4>
+        <img [src]="modalImage" [alt]="modalMessage">
+        <p><b>The scanner reads: </b> {{ postulantId }}</p>
+      </div>
+    </ng-container>
   </div>
   <div class="modal-footer">
-    <button class="modal-close waves-effect waves-light btn ok-btn">Ok</button>
+    <button *ngIf="modalImage === images.info" class="modal-close waves-effect waves-light btn ok-btn">Ok</button>
+    <button *ngIf="modalImage === images.error" class="modal-close waves-effect waves-light btn cancel-btn">Try
+      again</button>
   </div>
 </div>
