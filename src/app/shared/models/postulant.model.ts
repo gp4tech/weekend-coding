@@ -18,5 +18,5 @@ export interface Postulant extends DataType {
   firstSnackDelivered?: boolean;
   secondSnackDelivered?: boolean;
   visibleInSearch?: boolean;
-  teachersWhoGavePoints?: string[];
+  teachersWhoGavePoints?: any;
 }
