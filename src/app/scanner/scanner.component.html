@@ -31,6 +31,7 @@
     <ng-container *ngIf="postulant">
       <div class="center-align">
         <p>{{ modalMessage }}</p>
+        <img [src]="modalImage" [alt]="modalMessage">
         <p>{{ postulant.fullName }}</p>
       </div>
     </ng-container>
