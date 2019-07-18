@@ -29,6 +29,7 @@
     "firebase": "^6.2.4",
     "jspdf": "^1.5.3",
     "materialize-css": "^1.0.0-rc.2",
+    "ng-starrating": "^1.0.6",
     "rxjs": "~6.5.2",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"

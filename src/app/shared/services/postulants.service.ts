@@ -116,4 +116,21 @@ export class PostulantsService extends DataService<Postulant> {
 
     return false;
   }
+
+  givePointsToPostulant(
+    postulant: Postulant,
+    speakerId: string,
+    points: number
+  ): boolean {
+    if (postulant.accepted && postulant.checkIn) {
+      if (!postulant.teachersWhoGavePoints) {
+        postulant.teachersWhoGavePoints = {};
+      }
+      postulant.teachersWhoGavePoints[speakerId] = points;
+      this.upsertData(postulant);
+      return true;
+    }
+
+    return false;
+  }
 }

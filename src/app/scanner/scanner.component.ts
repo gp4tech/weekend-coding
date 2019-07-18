@@ -1,23 +1,30 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
 
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { StarRatingComponent } from 'ng-starrating';
 
+import { AuthService } from '../auth/auth.service';
+import { AuthUser } from '../shared/models/auth-user.model';
 import { PostulantsService } from '../shared/services/postulants.service';
 import { Postulant } from '../shared/models/postulant.model';
 import { ModalDirective } from '../shared/directives/modal/modal.directive';
+
+const defaultRate = 3;
 
 @Component({
   selector: 'wc-scanner',
   templateUrl: './scanner.component.html',
   styleUrls: ['./scanner.component.scss']
 })
-export class ScannerComponent implements OnDestroy {
+export class ScannerComponent implements OnInit, OnDestroy {
   images = {
     info: 'assets/images/processed.png',
     error: 'assets/images/error.png'
   };
   modalImage = this.images.error;
+  postulantPoints = defaultRate;
+  currentUser$: Observable<AuthUser>;
   modalMessage: string;
   selectedItemForScan: string;
   postulantId: string;
@@ -26,7 +33,14 @@ export class ScannerComponent implements OnDestroy {
   @ViewChild('postulantProcessedModal', { static: true })
   postulantModal: ModalDirective;
 
-  constructor(private postulantsService: PostulantsService) {}
+  constructor(
+    private auth: AuthService,
+    private postulantsService: PostulantsService
+  ) {}
+
+  ngOnInit(): void {
+    this.currentUser$ = this.auth.getCurrentUser();
+  }
 
   ngOnDestroy(): void {
     if (this.postulantSubscription) {
@@ -34,7 +48,7 @@ export class ScannerComponent implements OnDestroy {
     }
   }
 
-  processQRCode(postulantId: string): void {
+  processQRCode(postulantId: string, currentUser: AuthUser): void {
     if (!this.postulantId) {
       this.postulantId = postulantId;
       this.postulantSubscription = this.postulantsService
@@ -43,7 +57,7 @@ export class ScannerComponent implements OnDestroy {
         .subscribe(postulant => {
           if (postulant) {
             this.postulant = postulant;
-            this.processScanSelection();
+            this.processScanSelection(currentUser);
           } else {
             this.modalMessage = 'This does not look like a valid credential';
             this.modalImage = this.images.error;
@@ -56,26 +70,37 @@ export class ScannerComponent implements OnDestroy {
     }
   }
 
+  setPostulantRate(rate: {
+    oldValue: number;
+    newValue: number;
+    starRating: StarRatingComponent;
+  }): void {
+    this.postulantPoints = rate.newValue;
+  }
+
   cleanData(): void {
     this.postulantId = '';
     this.postulant = null;
     this.postulantSubscription.unsubscribe();
   }
 
-  private processScanSelection(): void {
+  private processScanSelection(currentUser: AuthUser): void {
     const postulantFieldValueForSelection = this.postulant[
       this.selectedItemForScan
     ];
 
-    if (!postulantFieldValueForSelection) {
-      this.processScanAccordingToField();
+    if (
+      this.selectedItemForScan === 'teachersWhoGavePoints' ||
+      !postulantFieldValueForSelection
+    ) {
+      this.processScanAccordingToField(currentUser);
     } else {
       this.modalMessage = 'Assistant was already checked';
       this.modalImage = this.images.error;
     }
   }
 
-  private processScanAccordingToField(): boolean {
+  private processScanAccordingToField(currentUser: AuthUser): boolean {
     let scanCorrectly = false;
 
     switch (this.selectedItemForScan) {
@@ -118,7 +143,16 @@ export class ScannerComponent implements OnDestroy {
           : 'Second snack could not be processd. Review if the assistant made the check in';
         break;
       case 'teachersWhoGavePoints':
-        scanCorrectly = this.addPointsToAssistant();
+        scanCorrectly = this.postulantsService.givePointsToPostulant(
+          this.postulant,
+          currentUser.id,
+          this.postulantPoints
+        );
+        this.modalMessage = scanCorrectly
+          ? `${this.postulantPoints} ${
+              this.postulantPoints === 1 ? 'point was' : 'points were'
+            } given to ${this.postulant.fullName}`
+          : 'Something went wrong. Are you sure this assistant made the check in?';
         break;
       default:
         this.modalMessage = 'Looks like you did not choose an option';
@@ -128,10 +162,5 @@ export class ScannerComponent implements OnDestroy {
     this.modalImage = scanCorrectly ? this.images.info : this.images.error;
 
     return scanCorrectly;
-  }
-
-  private addPointsToAssistant(): boolean {
-    this.modalMessage = 'Points were given to the student';
-    return true;
   }
 }
