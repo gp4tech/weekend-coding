@@ -7,12 +7,19 @@ import { PostulantsService } from '../shared/services/postulants.service';
 import { Postulant } from '../shared/models/postulant.model';
 import { ModalDirective } from '../shared/directives/modal/modal.directive';
 
+const images = {
+  info: 'assets/images/processed.png',
+  error: 'assets/images/error.png'
+};
+
 @Component({
   selector: 'wc-scanner',
   templateUrl: './scanner.component.html',
   styleUrls: ['./scanner.component.scss']
 })
 export class ScannerComponent implements OnInit, OnDestroy {
+  modalImage = images.error;
+  modalMessage: string;
   selectedItemForScan: string;
   postulantId: string;
   postulant: Postulant;
@@ -52,26 +59,77 @@ export class ScannerComponent implements OnInit, OnDestroy {
   }
 
   private processScanSelection(): void {
-    if (this.selectedItemForScan) {
-      const postulantFieldValueForSelection = this.postulant[
-        this.selectedItemForScan
-      ];
+    const postulantFieldValueForSelection = this.postulant[
+      this.selectedItemForScan
+    ];
 
-      if (this.selectedItemForScan !== 'teachersWhoGavePoints') {
-        if (!postulantFieldValueForSelection) {
-          this.postulant[this.selectedItemForScan] = true;
-          console.log(this.postulant);
-          this.postulantsService.upsertData(this.postulant);
-        } else {
-          console.log('Assistant was already checked');
-        }
-      } else {
-        console.log('Giving points');
-      }
+    if (!postulantFieldValueForSelection) {
+      this.processScanAccordingToField();
     } else {
-      console.log('Select an option');
+      this.modalMessage = 'Assistant was already checked';
+      this.modalImage = images.error;
     }
 
     this.postulantModal.modalInstance.open();
+  }
+
+  processScanAccordingToField(): boolean {
+    let scanCorrectly = false;
+
+    switch (this.selectedItemForScan) {
+      case 'checkIn':
+        scanCorrectly = this.postulantsService.checkInAssistant(this.postulant);
+        this.modalMessage = scanCorrectly
+          ? 'Check in was correct'
+          : 'Check in could not be completed. Review if the assistant was accepted';
+        break;
+      case 'feeForLunchReceived':
+        scanCorrectly = this.postulantsService.markFeeForLunchAsReceived(
+          this.postulant
+        );
+        this.modalMessage = scanCorrectly
+          ? 'Fee for lunch was received correctly'
+          : 'Fee for lunch could not be processed. Review if the assistant made the check in';
+        break;
+      case 'lunchDelivered':
+        scanCorrectly = this.postulantsService.markLunchAsDelivered(
+          this.postulant
+        );
+        this.modalMessage = scanCorrectly
+          ? 'Lunch was delivered correctly'
+          : 'Lunch could not be processed. Review if the assistant gave her/his fee';
+        break;
+      case 'firstSnackDelivered':
+        scanCorrectly = this.postulantsService.markFirstSnackAsDelivered(
+          this.postulant
+        );
+        this.modalMessage = scanCorrectly
+          ? 'First snack was delivered correctly'
+          : 'First snack could not be processd. Review if the assistant made the check in';
+        break;
+      case 'secondSnackDelivered':
+        scanCorrectly = this.postulantsService.markSecondSnackAsDelivered(
+          this.postulant
+        );
+        this.modalMessage = scanCorrectly
+          ? 'Second snack was delivered correctly'
+          : 'Second snack could not be processd. Review if the assistant made the check in';
+        break;
+      case 'teachersWhoGavePoints':
+        scanCorrectly = this.addPointsToAssistant();
+        break;
+      default:
+        this.modalMessage = 'Looks like you did not choose an option';
+        break;
+    }
+
+    this.modalImage = scanCorrectly ? images.info : images.error;
+
+    return scanCorrectly;
+  }
+
+  addPointsToAssistant(): boolean {
+    this.modalMessage = 'Points were given to the student';
+    return true;
   }
 }
