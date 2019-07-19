@@ -10,6 +10,9 @@ import { AuthUser } from '../shared/models/auth-user.model';
 
 @Injectable()
 export class AuthService {
+  loading = false;
+  message: string;
+
   constructor(
     private afAuth: AngularFireAuth,
     private router: Router,
@@ -29,14 +32,21 @@ export class AuthService {
   }
 
   login(email: string, password: string): void {
+    this.loading = true;
+
     this.afAuth.auth
       .signInWithEmailAndPassword(email, password)
       .then(credential => {
+        this.message = '';
         this.userService.assertAuthUser(credential.user);
         this.router.navigate(['/']);
+        setTimeout(() => {
+          this.loading = false;
+        }, 500);
       })
       .catch(err => {
-        this.handleError(err);
+        this.message = err;
+        this.loading = false;
       });
   }
 
@@ -47,11 +57,7 @@ export class AuthService {
         this.router.navigate(['/login']);
       })
       .catch(err => {
-        this.handleError(err);
+        console.error(err);
       });
-  }
-
-  private handleError(err: string): void {
-    console.error(err);
   }
 }
