@@ -22,7 +22,10 @@ export class AuthUserService extends DataService<AuthUser> {
           user = {
             id: firebaseUser.uid,
             email: firebaseUser.email,
-            deleteFlag: false
+            deleteFlag: false,
+            roles: {
+              staff: true
+            }
           };
 
           this.upsertData(user);
