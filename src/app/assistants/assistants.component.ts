@@ -1,7 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 
+import { AuthService } from '../auth/auth.service';
+import { AuthUser } from '../shared/models/auth-user.model';
 import { Postulant } from '../shared/models/postulant.model';
 import { PostulantsService } from '../shared/services/postulants.service';
 
@@ -13,13 +15,18 @@ import { PostulantsService } from '../shared/services/postulants.service';
 export class AssistantsComponent implements OnInit, OnDestroy {
   searchTerm = '';
   rfidInputEnabled = false;
+  currentUser$: Observable<AuthUser>;
   currentAssistant: Postulant;
   assistants: Postulant[];
   assistantsSubscription: Subscription;
 
-  constructor(public postunlantsService: PostulantsService) {}
+  constructor(
+    public postunlantsService: PostulantsService,
+    private auth: AuthService
+  ) {}
 
   ngOnInit(): void {
+    this.currentUser$ = this.auth.getCurrentUser();
     this.assistantsSubscription = this.postunlantsService
       .getConfirmedPostulants()
       .subscribe(assistants => {
@@ -52,8 +59,12 @@ export class AssistantsComponent implements OnInit, OnDestroy {
     this.currentAssistant = assistant;
   }
 
-  saveAssistantRFID(assistant: Postulant): void {
-    this.postunlantsService.upsertData(assistant);
+  saveAssistantRFID(currentUser: AuthUser, assistant: Postulant): void {
+    this.postunlantsService.giveRFIDToPostulant(
+      currentUser,
+      assistant,
+      assistant.rfid
+    );
     this.rfidInputEnabled = false;
   }
 }

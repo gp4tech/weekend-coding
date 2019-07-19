@@ -1,14 +1,14 @@
-import { Directive, ElementRef, OnInit } from '@angular/core';
+import { Directive, ElementRef, AfterViewInit } from '@angular/core';
 
 import { FormSelect } from 'materialize-css';
 
 @Directive({
   selector: '[wcSelect]'
 })
-export class SelectDirective implements OnInit {
+export class SelectDirective implements AfterViewInit {
   constructor(private elementRef: ElementRef) {}
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     FormSelect.init(this.elementRef.nativeElement);
   }
 }

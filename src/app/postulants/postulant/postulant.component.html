@@ -1,55 +1,57 @@
-<div class="container">
-  <div class="row postulant" *ngIf="postulant">
-    <div class="col s12 postulant-header">
-      <div class="row">
-        <div class="col s12 m9">
-          <h3>{{ postulant.fullName }}</h3>
-        </div>
-        <div class="col s12 m3 right-align">
-          <a class="postulant-print-btn waves-effect waves-light btn modal-trigger"
-            href="#print-credential">Credential</a>
+<ng-container *ngIf="(currentUser$ | async) as currentUser">
+  <div class="container">
+    <div class="row postulant" *ngIf="postulant">
+      <div class="col s12 postulant-header">
+        <div class="row">
+          <div class="col s12 m9">
+            <h3>{{ postulant.fullName }}</h3>
+          </div>
+          <div class="col s12 m3 right-align">
+            <a class="postulant-print-btn waves-effect waves-light btn modal-trigger"
+              href="#print-credential">Credential</a>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col s12">
-      <div class="card-panel teal white-text">
-        <p><b>Age: </b> {{ postulant.age }}</p>
-        <p><b>Class: </b> {{ postulant.class }}</p>
-        <p><b>Email: </b> {{ postulant.email }}</p>
-        <p><b>Gender: </b> {{ postulant.gender }}</p>
-        <p><b>Institution:</b> {{ postulant.institution }}</p>
-        <p><b>Phone: </b> {{ postulant.phone }}</p>
-        <p><b>Reason: </b> {{ postulant.reason }}</p>
-        <p>
-          <label class="white-text">
-            <input type="checkbox" [checked]="postulant.accepted"
-              (change)="postulantsService.acceptPostulant(postulant)">
-            <span>Accept postulant</span>
-          </label>
-        </p>
-        <p>
-          <label class="white-text">
-            <input type="checkbox" [checked]="postulant.credentialSent" [disabled]="!postulant.accepted"
-              (change)="postulantsService.markCredentialAsSent(postulant)">
-            <span>Mark credential as sent</span>
-          </label>
-        </p>
-        <p>
-          <label class="white-text">
-            <input type="checkbox" [checked]="postulant.confirmedAssistant"
-              [disabled]="!postulant.accepted || !postulant.credentialSent"
-              (change)="postulantsService.confirmPostulantAssistance(postulant)">
-            <span>Confirm postulant assistance</span>
-          </label>
-        </p>
-        <a id="delete-button" class="modal-trigger red-text text-lighten-3" href="#delete-postulant">
-          Delete postulant
-          <i class="fas fa-trash-alt"></i>
-        </a>
+      <div class="col s12">
+        <div class="card-panel teal white-text">
+          <p><b>Age: </b> {{ postulant.age }}</p>
+          <p><b>Class: </b> {{ postulant.class }}</p>
+          <p><b>Email: </b> {{ postulant.email }}</p>
+          <p><b>Gender: </b> {{ postulant.gender }}</p>
+          <p><b>Institution:</b> {{ postulant.institution }}</p>
+          <p><b>Phone: </b> {{ postulant.phone }}</p>
+          <p><b>Reason: </b> {{ postulant.reason }}</p>
+          <p>
+            <label class="white-text">
+              <input type="checkbox" [checked]="postulant.accepted"
+                (change)="postulantsService.acceptPostulant(currentUser, postulant)">
+              <span>Accept postulant</span>
+            </label>
+          </p>
+          <p>
+            <label class="white-text">
+              <input type="checkbox" [checked]="postulant.credentialSent" [disabled]="!postulant.accepted"
+                (change)="postulantsService.markCredentialAsSent(currentUser, postulant)">
+              <span>Mark credential as sent</span>
+            </label>
+          </p>
+          <p>
+            <label class="white-text">
+              <input type="checkbox" [checked]="postulant.confirmedAssistant"
+                [disabled]="!postulant.accepted || !postulant.credentialSent"
+                (change)="postulantsService.confirmPostulantAssistance(currentUser, postulant)">
+              <span>Confirm postulant assistance</span>
+            </label>
+          </p>
+          <a id="delete-button" class="modal-trigger red-text text-lighten-3" href="#delete-postulant">
+            Delete postulant
+            <i class="fas fa-trash-alt"></i>
+          </a>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</ng-container>
 
 <div wcModal id="print-credential" class="modal">
   <ng-container *ngIf="postulant">
