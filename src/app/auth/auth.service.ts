@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, first } from 'rxjs/operators';
 
 import { AuthUserService } from './auth-user.service';
 import { AuthUser } from '../shared/models/auth-user.model';
@@ -38,8 +38,11 @@ export class AuthService {
       .signInWithEmailAndPassword(email, password)
       .then(credential => {
         this.message = '';
-        this.userService.assertAuthUser(credential.user);
-        this.router.navigate(['/']);
+        this.userService
+          .assertAuthUser(credential.user)
+          .pipe(first())
+          .subscribe(_ => this.router.navigate(['']));
+
         setTimeout(() => {
           this.loading = false;
         }, 500);
