@@ -13,7 +13,7 @@ import { environment } from '../../environments/environment';
     CommonModule,
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,
     AuthModule
   ]
