@@ -19,4 +19,5 @@ export interface Postulant extends DataType {
   secondSnackDelivered?: boolean;
   visibleInSearch?: boolean;
   teachersWhoGavePoints?: any;
+  rfid?: string;
 }
