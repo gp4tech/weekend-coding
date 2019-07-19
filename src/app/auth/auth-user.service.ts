@@ -24,7 +24,7 @@ export class AuthUserService extends DataService<AuthUser> {
             email: firebaseUser.email,
             deleteFlag: false,
             roles: {
-              staff: true
+              speaker: true
             }
           };
 
