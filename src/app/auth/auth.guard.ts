@@ -39,10 +39,10 @@ export class AuthGuard implements CanActivate {
         hasAccess = false;
         break;
       case 'postulants':
+      case 'credentials':
         hasAccess = roles.admin;
         break;
       case 'assistants':
-      case 'credentials':
         hasAccess = roles.admin || roles.staff;
         break;
       case 'scanner':

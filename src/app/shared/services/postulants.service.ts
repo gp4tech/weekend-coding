@@ -133,6 +133,15 @@ export class PostulantsService extends DataService<Postulant> {
         postulant.teachersWhoGavePoints = {};
       }
       postulant.teachersWhoGavePoints[user.id] = points;
+      postulant.accumulatedPoints = 0;
+
+      for (const teacherId in postulant.teachersWhoGavePoints) {
+        if (postulant.teachersWhoGavePoints[teacherId]) {
+          postulant.accumulatedPoints +=
+            postulant.teachersWhoGavePoints[teacherId];
+        }
+      }
+
       this.upsertData(postulant);
       return true;
     }

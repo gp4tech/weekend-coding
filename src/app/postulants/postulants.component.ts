@@ -15,7 +15,7 @@ import { DataOrder } from '../shared/models/data-order.enum';
 })
 export class PostulantsComponent implements OnInit, OnDestroy {
   searchTerm = '';
-  currentUser: Observable<AuthUser>;
+  currentUser$: Observable<AuthUser>;
   postulants: Postulant[];
   postulantsSubscription: Subscription;
   selectedPostulant: Postulant;
@@ -26,7 +26,7 @@ export class PostulantsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.currentUser = this.auth.getCurrentUser();
+    this.currentUser$ = this.auth.getCurrentUser();
     this.postulantsSubscription = this.postulantsService
       .getAllSorted('fullName', DataOrder.asc)
       .subscribe(postulants => {
