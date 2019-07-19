@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 
-import { switchMap, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import * as firebase from 'firebase';
 
 import { DataService } from '../shared/models/data-service.model';
