@@ -9,12 +9,13 @@
           <div class="input-field col s12 m3">
             <select wcSelect [(ngModel)]="selectedItemForScan">
               <option value="" disabled selected>Choose an option</option>
-              <option value="checkIn">CheckIn</option>
-              <option value="feeForLunchReceived">FeeForLunch</option>
-              <option value="firstSnackDelivered">Snack#1</option>
-              <option value="lunchDelivered">Lunch</option>
-              <option value="secondSnackDelivered">Snack#2</option>
-              <option value="teachersWhoGavePoints">Points</option>
+              <option *ngIf="!currentUser.roles.speaker" value="checkIn">CheckIn</option>
+              <option *ngIf="!currentUser.roles.speaker" value="feeForLunchReceived">FeeForLunch</option>
+              <option *ngIf="!currentUser.roles.speaker" value="firstSnackDelivered">Snack#1</option>
+              <option *ngIf="!currentUser.roles.speaker" value="lunchDelivered">Lunch</option>
+              <option *ngIf="!currentUser.roles.speaker" value="secondSnackDelivered">Snack#2</option>
+              <option *ngIf="!currentUser.roles.staff" value="teachersWhoGavePoints">Points
+              </option>
             </select>
             <label></label>
           </div>

@@ -7,6 +7,7 @@ import { DataService } from '../models/data-service.model';
 import { Postulant } from '../models/postulant.model';
 import { FirestoreCollection } from '../models/firestore-collection.enum';
 import { DataOrder } from '../models/data-order.enum';
+import { AuthUser } from '../models/auth-user.model';
 
 @Injectable()
 export class PostulantsService extends DataService<Postulant> {
@@ -37,14 +38,18 @@ export class PostulantsService extends DataService<Postulant> {
       .valueChanges();
   }
 
-  acceptPostulant(postulant: Postulant): boolean {
-    postulant.accepted = !postulant.accepted;
-    this.upsertData(postulant);
-    return true;
+  acceptPostulant(user: AuthUser, postulant: Postulant): boolean {
+    if (user.roles.admin) {
+      postulant.accepted = !postulant.accepted;
+      this.upsertData(postulant);
+      return true;
+    }
+
+    return false;
   }
 
-  markCredentialAsSent(postulant: Postulant): boolean {
-    if (postulant.accepted) {
+  markCredentialAsSent(user: AuthUser, postulant: Postulant): boolean {
+    if (user.roles.admin && postulant.accepted) {
       postulant.credentialSent = !postulant.credentialSent;
       this.upsertData(postulant);
       return true;
@@ -53,8 +58,8 @@ export class PostulantsService extends DataService<Postulant> {
     return false;
   }
 
-  confirmPostulantAssistance(postulant: Postulant): boolean {
-    if (postulant.accepted && postulant.credentialSent) {
+  confirmPostulantAssistance(user: AuthUser, postulant: Postulant): boolean {
+    if (user.roles.admin && postulant.accepted && postulant.credentialSent) {
       postulant.confirmedAssistant = !postulant.confirmedAssistant;
       this.upsertData(postulant);
       return true;
@@ -63,8 +68,8 @@ export class PostulantsService extends DataService<Postulant> {
     return false;
   }
 
-  checkInAssistant(postulant: Postulant): boolean {
-    if (postulant.accepted) {
+  checkInAssistant(user: AuthUser, postulant: Postulant): boolean {
+    if (!user.roles.speaker && postulant.accepted) {
       postulant.checkIn = !postulant.checkIn;
       this.upsertData(postulant);
       return true;
@@ -73,8 +78,8 @@ export class PostulantsService extends DataService<Postulant> {
     return false;
   }
 
-  markFeeForLunchAsReceived(postulant: Postulant): boolean {
-    if (postulant.accepted && postulant.checkIn) {
+  markFeeForLunchAsReceived(user: AuthUser, postulant: Postulant): boolean {
+    if (!user.roles.speaker && postulant.accepted && postulant.checkIn) {
       postulant.feeForLunchReceived = !postulant.feeForLunchReceived;
       this.upsertData(postulant);
       return true;
@@ -83,8 +88,9 @@ export class PostulantsService extends DataService<Postulant> {
     return false;
   }
 
-  markLunchAsDelivered(postulant: Postulant): boolean {
+  markLunchAsDelivered(user: AuthUser, postulant: Postulant): boolean {
     if (
+      !user.roles.speaker &&
       postulant.accepted &&
       postulant.checkIn &&
       postulant.feeForLunchReceived
@@ -97,8 +103,8 @@ export class PostulantsService extends DataService<Postulant> {
     return false;
   }
 
-  markFirstSnackAsDelivered(postulant: Postulant): boolean {
-    if (postulant.accepted && postulant.checkIn) {
+  markFirstSnackAsDelivered(user: AuthUser, postulant: Postulant): boolean {
+    if (!user.roles.speaker && postulant.accepted && postulant.checkIn) {
       postulant.firstSnackDelivered = !postulant.firstSnackDelivered;
       this.upsertData(postulant);
       return true;
@@ -107,8 +113,8 @@ export class PostulantsService extends DataService<Postulant> {
     return false;
   }
 
-  markSecondSnackAsDelivered(postulant: Postulant): boolean {
-    if (postulant.accepted && postulant.checkIn) {
+  markSecondSnackAsDelivered(user: AuthUser, postulant: Postulant): boolean {
+    if (!user.roles.speaker && postulant.accepted && postulant.checkIn) {
       postulant.secondSnackDelivered = !postulant.secondSnackDelivered;
       this.upsertData(postulant);
       return true;
@@ -118,15 +124,29 @@ export class PostulantsService extends DataService<Postulant> {
   }
 
   givePointsToPostulant(
+    user: AuthUser,
     postulant: Postulant,
-    speakerId: string,
     points: number
   ): boolean {
-    if (postulant.accepted && postulant.checkIn) {
+    if (!user.roles.staff && postulant.accepted && postulant.checkIn) {
       if (!postulant.teachersWhoGavePoints) {
         postulant.teachersWhoGavePoints = {};
       }
-      postulant.teachersWhoGavePoints[speakerId] = points;
+      postulant.teachersWhoGavePoints[user.id] = points;
+      this.upsertData(postulant);
+      return true;
+    }
+
+    return false;
+  }
+
+  giveRFIDToPostulant(
+    user: AuthUser,
+    postulant: Postulant,
+    rfid: string
+  ): boolean {
+    if (!user.roles.speaker) {
+      postulant.rfid = rfid;
       this.upsertData(postulant);
       return true;
     }

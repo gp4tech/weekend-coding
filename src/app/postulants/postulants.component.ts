@@ -1,7 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 
+import { AuthService } from '../auth/auth.service';
+import { AuthUser } from '../shared/models/auth-user.model';
 import { PostulantsService } from '../shared/services/postulants.service';
 import { Postulant } from '../shared/models/postulant.model';
 import { DataOrder } from '../shared/models/data-order.enum';
@@ -13,13 +15,18 @@ import { DataOrder } from '../shared/models/data-order.enum';
 })
 export class PostulantsComponent implements OnInit, OnDestroy {
   searchTerm = '';
+  currentUser: Observable<AuthUser>;
   postulants: Postulant[];
   postulantsSubscription: Subscription;
   selectedPostulant: Postulant;
 
-  constructor(public postulantsService: PostulantsService) {}
+  constructor(
+    public postulantsService: PostulantsService,
+    private auth: AuthService
+  ) {}
 
   ngOnInit(): void {
+    this.currentUser = this.auth.getCurrentUser();
     this.postulantsSubscription = this.postulantsService
       .getAllSorted('fullName', DataOrder.asc)
       .subscribe(postulants => {

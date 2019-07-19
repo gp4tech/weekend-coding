@@ -105,13 +105,17 @@ export class ScannerComponent implements OnInit, OnDestroy {
 
     switch (this.selectedItemForScan) {
       case 'checkIn':
-        scanCorrectly = this.postulantsService.checkInAssistant(this.postulant);
+        scanCorrectly = this.postulantsService.checkInAssistant(
+          currentUser,
+          this.postulant
+        );
         this.modalMessage = scanCorrectly
           ? 'Check in was correct'
           : 'Check in could not be completed. Review if the assistant was accepted';
         break;
       case 'feeForLunchReceived':
         scanCorrectly = this.postulantsService.markFeeForLunchAsReceived(
+          currentUser,
           this.postulant
         );
         this.modalMessage = scanCorrectly
@@ -120,6 +124,7 @@ export class ScannerComponent implements OnInit, OnDestroy {
         break;
       case 'lunchDelivered':
         scanCorrectly = this.postulantsService.markLunchAsDelivered(
+          currentUser,
           this.postulant
         );
         this.modalMessage = scanCorrectly
@@ -128,6 +133,7 @@ export class ScannerComponent implements OnInit, OnDestroy {
         break;
       case 'firstSnackDelivered':
         scanCorrectly = this.postulantsService.markFirstSnackAsDelivered(
+          currentUser,
           this.postulant
         );
         this.modalMessage = scanCorrectly
@@ -136,6 +142,7 @@ export class ScannerComponent implements OnInit, OnDestroy {
         break;
       case 'secondSnackDelivered':
         scanCorrectly = this.postulantsService.markSecondSnackAsDelivered(
+          currentUser,
           this.postulant
         );
         this.modalMessage = scanCorrectly
@@ -144,15 +151,15 @@ export class ScannerComponent implements OnInit, OnDestroy {
         break;
       case 'teachersWhoGavePoints':
         scanCorrectly = this.postulantsService.givePointsToPostulant(
+          currentUser,
           this.postulant,
-          currentUser.id,
           this.postulantPoints
         );
         this.modalMessage = scanCorrectly
           ? `${this.postulantPoints} ${
               this.postulantPoints === 1 ? 'point was' : 'points were'
             } given to ${this.postulant.fullName}`
-          : 'Something went wrong. Are you sure this assistant made the check in?';
+          : 'Something went wrong. It looks like you are not a speaker';
         break;
       default:
         this.modalMessage = 'Looks like you did not choose an option';
