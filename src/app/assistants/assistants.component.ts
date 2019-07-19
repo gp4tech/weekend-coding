@@ -12,6 +12,8 @@ import { PostulantsService } from '../shared/services/postulants.service';
 })
 export class AssistantsComponent implements OnInit, OnDestroy {
   searchTerm = '';
+  rfidInputEnabled = false;
+  currentAssistant: Postulant;
   assistants: Postulant[];
   assistantsSubscription: Subscription;
 
@@ -23,6 +25,7 @@ export class AssistantsComponent implements OnInit, OnDestroy {
       .subscribe(assistants => {
         this.assistants = assistants;
         this.searchAssistant();
+        this.currentAssistant = this.assistants[0];
       });
   }
 
@@ -42,5 +45,15 @@ export class AssistantsComponent implements OnInit, OnDestroy {
         assistant.visibleInSearch = true;
       });
     }
+  }
+
+  enableEditingRFID(assistant: Postulant): void {
+    this.rfidInputEnabled = true;
+    this.currentAssistant = assistant;
+  }
+
+  saveAssistantRFID(assistant: Postulant): void {
+    this.postunlantsService.upsertData(assistant);
+    this.rfidInputEnabled = false;
   }
 }
