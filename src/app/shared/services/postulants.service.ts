@@ -38,6 +38,19 @@ export class PostulantsService extends DataService<Postulant> {
       .valueChanges();
   }
 
+  getLabPostulants(): Observable<Postulant[]> {
+    return this.db
+      .collection<Postulant>(this.collection, ref =>
+        ref
+          .where('deleteFlag', '==', false)
+          .where('accepted', '==', true)
+          .where('confirmedAssistant', '==', true)
+          .where('checkIn', '==', true)
+          // .where('lunchDelivered', '==', true)
+      )
+      .valueChanges();
+  }
+
   acceptPostulant(user: AuthUser, postulant: Postulant): boolean {
     if (user.roles.admin) {
       postulant.accepted = !postulant.accepted;

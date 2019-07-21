@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from './auth/auth.guard';
+import { LabComponent } from './lab/lab.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,10 @@ const routes: Routes = [
         mod => mod.CredentialsModule
       ),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'lab',
+    loadChildren: () => import('./lab/lab.module').then(mod => mod.LabModule)
   }
 ];
 
