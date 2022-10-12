@@ -29,7 +29,7 @@
     "angularx-qrcode": "^1.6.1",
     "core-js": "^2.5.4",
     "firebase": "^6.2.4",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.5.1",
     "materialize-css": "^1.0.0-rc.2",
     "ng-starrating": "^1.0.6",
     "rxjs": "~6.5.2",
