@@ -5,6 +5,6 @@ import { ModalDirective } from './modal.directive';
 @NgModule({
   declarations: [ModalDirective],
   imports: [CommonModule],
-  exports: [ModalDirective]
+  exports: [ModalDirective],
 })
 export class ModalModule {}

@@ -6,7 +6,7 @@ import {
   OnChanges,
   Output,
   EventEmitter,
-  OnInit
+  OnInit,
 } from '@angular/core';
 
 import { QRCodeComponent } from 'angularx-qrcode';
@@ -16,7 +16,7 @@ import { Postulant } from '../../models/postulant.model';
 @Component({
   selector: 'wc-postulant-credential',
   templateUrl: './postulant-credential.component.html',
-  styleUrls: ['./postulant-credential.component.scss']
+  styleUrls: ['./postulant-credential.component.scss'],
 })
 export class PostulantCredentialComponent implements OnInit, OnChanges {
   qrData = 'QR was not generated yet';
@@ -40,17 +40,17 @@ export class PostulantCredentialComponent implements OnInit, OnChanges {
   print(): void {
     const printButton = document.createElement('a');
     printButton.download = this.postulant.fullName;
-    printButton.href = this.credentialCanvas.nativeElement.toDataURL(
-      'image/png;base64'
-    );
+    printButton.href =
+      this.credentialCanvas.nativeElement.toDataURL('image/png;base64');
     printButton.click();
   }
 
   private loadCredential(): void {
     if (this.postulant) {
       this.qrData = this.postulant.id;
-      const context = (this.credentialCanvas
-        .nativeElement as HTMLCanvasElement).getContext('2d');
+      const context = (
+        this.credentialCanvas.nativeElement as HTMLCanvasElement
+      ).getContext('2d');
       const templateImage = new Image();
       const qrTop = 240;
       const qrLeft = 70;

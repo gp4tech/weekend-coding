@@ -9,6 +9,6 @@ import { PostulantCredentialModule } from '../shared/components/postulant-creden
 @NgModule({
   declarations: [CredentialsComponent],
   imports: [CommonModule, CredentialsRoutingModule, PostulantCredentialModule],
-  providers: [PostulantsService]
+  providers: [PostulantsService],
 })
 export class CredentialsModule {}

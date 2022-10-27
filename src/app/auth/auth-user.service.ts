@@ -17,20 +17,20 @@ export class AuthUserService extends DataService<AuthUser> {
 
   assertAuthUser(firebaseUser: firebase.User): Observable<void> {
     return this.getById(firebaseUser.uid).pipe(
-      map(user => {
+      map((user) => {
         if (!user) {
           user = {
             id: firebaseUser.uid,
             email: firebaseUser.email,
             deleteFlag: false,
             roles: {
-              speaker: true
-            }
+              speaker: true,
+            },
           };
 
           this.upsertData(user);
         }
-      })
+      }),
     );
   }
 }

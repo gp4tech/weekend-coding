@@ -8,6 +8,6 @@ import { PostulantCredentialComponent } from './postulant-credential.component';
 @NgModule({
   declarations: [PostulantCredentialComponent],
   imports: [CommonModule, QRCodeModule],
-  exports: [PostulantCredentialComponent]
+  exports: [PostulantCredentialComponent],
 })
 export class PostulantCredentialModule {}

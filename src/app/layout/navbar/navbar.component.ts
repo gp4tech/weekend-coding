@@ -6,7 +6,7 @@ import { AuthUser } from '../../shared/models/auth-user.model';
 @Component({
   selector: 'wc-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
   currentUser: AuthUser;
@@ -14,7 +14,7 @@ export class NavbarComponent implements OnInit {
   constructor(public auth: AuthService) {}
 
   ngOnInit(): void {
-    this.auth.getCurrentUser().subscribe(user => {
+    this.auth.getCurrentUser().subscribe((user) => {
       this.currentUser = user;
     });
   }

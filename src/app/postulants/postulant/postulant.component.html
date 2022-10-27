@@ -1,4 +1,4 @@
-<ng-container *ngIf="(currentUser$ | async) as currentUser">
+<ng-container *ngIf="currentUser$ | async as currentUser">
   <div class="container">
     <div class="row postulant" *ngIf="postulant">
       <div class="col s12 postulant-header">
@@ -7,8 +7,11 @@
             <h3>{{ postulant.fullName }}</h3>
           </div>
           <div class="col s12 m3 right-align">
-            <a class="postulant-print-btn waves-effect waves-light btn modal-trigger"
-              href="#print-credential">Credential</a>
+            <a
+              class="postulant-print-btn waves-effect waves-light btn modal-trigger"
+              href="#print-credential"
+              >Credential</a
+            >
           </div>
         </div>
       </div>
@@ -23,27 +26,50 @@
           <p><b>Reason: </b> {{ postulant.reason }}</p>
           <p>
             <label class="white-text">
-              <input type="checkbox" [checked]="postulant.accepted"
-                (change)="postulantsService.acceptPostulant(currentUser, postulant)">
+              <input
+                type="checkbox"
+                [checked]="postulant.accepted"
+                (change)="
+                  postulantsService.acceptPostulant(currentUser, postulant)
+                "
+              />
               <span>Accept postulant</span>
             </label>
           </p>
           <p>
             <label class="white-text">
-              <input type="checkbox" [checked]="postulant.credentialSent" [disabled]="!postulant.accepted"
-                (change)="postulantsService.markCredentialAsSent(currentUser, postulant)">
+              <input
+                type="checkbox"
+                [checked]="postulant.credentialSent"
+                [disabled]="!postulant.accepted"
+                (change)="
+                  postulantsService.markCredentialAsSent(currentUser, postulant)
+                "
+              />
               <span>Mark credential as sent</span>
             </label>
           </p>
           <p>
             <label class="white-text">
-              <input type="checkbox" [checked]="postulant.confirmedAssistant"
+              <input
+                type="checkbox"
+                [checked]="postulant.confirmedAssistant"
                 [disabled]="!postulant.accepted || !postulant.credentialSent"
-                (change)="postulantsService.confirmPostulantAssistance(currentUser, postulant)">
+                (change)="
+                  postulantsService.confirmPostulantAssistance(
+                    currentUser,
+                    postulant
+                  )
+                "
+              />
               <span>Confirm postulant assistance</span>
             </label>
           </p>
-          <a id="delete-button" class="modal-trigger red-text text-lighten-3" href="#delete-postulant">
+          <a
+            id="delete-button"
+            class="modal-trigger red-text text-lighten-3"
+            href="#delete-postulant"
+          >
             Delete postulant
             <i class="fas fa-trash-alt"></i>
           </a>
@@ -58,18 +84,32 @@
     <div class="modal-content">
       <h4>Print Credential</h4>
       <div *ngIf="postulant.accepted" class="center-align">
-        <wc-postulant-credential #credential [postulant]="postulant"
-          (credentialLoaded)="setPostulantCredential(credential)" canvasWidth="391" canvasHeight="636">
+        <wc-postulant-credential
+          #credential
+          [postulant]="postulant"
+          (credentialLoaded)="setPostulantCredential(credential)"
+          canvasWidth="391"
+          canvasHeight="636"
+        >
         </wc-postulant-credential>
       </div>
       <div *ngIf="!postulant.accepted" class="center-align">
-        <p>This postulant was not accepted. The credentials were not generated.</p>
+        <p
+          >This postulant was not accepted. The credentials were not
+          generated.</p
+        >
       </div>
     </div>
     <div class="modal-footer">
-      <button class="modal-close waves-effect waves-light btn ok-btn" [disabled]="!postulant.accepted"
-        (click)="printCredential()">Print</button>
-      <button class="modal-close waves-effect waves-light btn cancel-btn">Cancel</button>
+      <button
+        class="modal-close waves-effect waves-light btn ok-btn"
+        [disabled]="!postulant.accepted"
+        (click)="printCredential()"
+        >Print</button
+      >
+      <button class="modal-close waves-effect waves-light btn cancel-btn"
+        >Cancel</button
+      >
     </div>
   </ng-container>
 </div>
@@ -79,13 +119,21 @@
     <div class="modal-content">
       <h4>Delete Postulant</h4>
       <div class="center-align">
-        <p>Are you sure you want to delete this postulant: {{ postulant.fullName }}?</p>
+        <p
+          >Are you sure you want to delete this postulant:
+          {{ postulant.fullName }}?</p
+        >
       </div>
     </div>
     <div class="modal-footer">
-      <button class="modal-close waves-effect waves-light btn ok-btn">Cancel</button>
-      <button class="modal-close waves-effect waves-light btn cancel-btn"
-        (click)="postulantsService.deleteData(postulant)">Delete</button>
+      <button class="modal-close waves-effect waves-light btn ok-btn"
+        >Cancel</button
+      >
+      <button
+        class="modal-close waves-effect waves-light btn cancel-btn"
+        (click)="postulantsService.deleteData(postulant)"
+        >Delete</button
+      >
     </div>
   </ng-container>
 </div>

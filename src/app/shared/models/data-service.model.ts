@@ -1,6 +1,6 @@
 import {
   AngularFirestore,
-  AngularFirestoreCollection
+  AngularFirestoreCollection,
 } from '@angular/fire/firestore';
 
 import { Observable, from, of } from 'rxjs';
@@ -15,10 +15,10 @@ export abstract class DataService<T extends DataType> {
 
   constructor(
     protected db: AngularFirestore,
-    protected collection: FirestoreCollection
+    protected collection: FirestoreCollection,
   ) {
-    this.dataCollection = db.collection<T>(collection, ref =>
-      ref.where('deleteFlag', '==', false)
+    this.dataCollection = db.collection<T>(collection, (ref) =>
+      ref.where('deleteFlag', '==', false),
     );
   }
 
@@ -29,10 +29,10 @@ export abstract class DataService<T extends DataType> {
   getAllSorted(
     field: string,
     order: DataOrder,
-    maxLimit?: number
+    maxLimit?: number,
   ): Observable<T[]> {
     return this.db
-      .collection<T>(this.collection, ref => {
+      .collection<T>(this.collection, (ref) => {
         let query = ref.where('deleteFlag', '==', false).orderBy(field, order);
 
         if (maxLimit) {
@@ -49,13 +49,13 @@ export abstract class DataService<T extends DataType> {
       .doc<T>(`${this.collection}/${id}`)
       .valueChanges()
       .pipe(
-        map(data => {
+        map((data) => {
           if (data && !data.deleteFlag) {
             return data;
           }
 
           return null;
-        })
+        }),
       );
   }
 

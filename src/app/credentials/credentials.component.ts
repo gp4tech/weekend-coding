@@ -16,7 +16,7 @@ const JPEG = 'JPEG';
 @Component({
   selector: 'wc-credentials',
   templateUrl: './credentials.component.html',
-  styleUrls: ['./credentials.component.scss']
+  styleUrls: ['./credentials.component.scss'],
 })
 export class CredentialsComponent implements OnInit {
   assistants$: Observable<Postulant[]>;
@@ -35,13 +35,11 @@ export class CredentialsComponent implements OnInit {
     let drawCounter = 0;
     let counter = 0;
 
-    this.credentials.forEach(credential => {
+    this.credentials.forEach((credential) => {
       counter++;
 
-      const credentialData = credential.credentialCanvas.nativeElement.toDataURL(
-        'image/jpeg',
-        1.0
-      );
+      const credentialData =
+        credential.credentialCanvas.nativeElement.toDataURL('image/jpeg', 1.0);
 
       switch (counter) {
         case 1:

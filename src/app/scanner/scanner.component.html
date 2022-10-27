@@ -1,4 +1,4 @@
-<ng-container *ngIf="(currentUser$ | async) as currentUser">
+<ng-container *ngIf="currentUser$ | async as currentUser">
   <div class="container">
     <div class="row postulant">
       <div class="col s12 postulant-header">
@@ -9,12 +9,31 @@
           <div class="input-field col s12 m3">
             <select wcSelect [(ngModel)]="selectedItemForScan">
               <option value="" disabled selected>Choose an option</option>
-              <option *ngIf="!currentUser.roles.speaker" value="checkIn">CheckIn</option>
-              <option *ngIf="!currentUser.roles.speaker" value="feeForLunchReceived">FeeForLunch</option>
-              <option *ngIf="!currentUser.roles.speaker" value="firstSnackDelivered">Snack#1</option>
-              <option *ngIf="!currentUser.roles.speaker" value="lunchDelivered">Lunch</option>
-              <option *ngIf="!currentUser.roles.speaker" value="secondSnackDelivered">Snack#2</option>
-              <option *ngIf="!currentUser.roles.staff" value="teachersWhoGavePoints">Points
+              <option *ngIf="!currentUser.roles.speaker" value="checkIn"
+                >CheckIn</option
+              >
+              <option
+                *ngIf="!currentUser.roles.speaker"
+                value="feeForLunchReceived"
+                >FeeForLunch</option
+              >
+              <option
+                *ngIf="!currentUser.roles.speaker"
+                value="firstSnackDelivered"
+                >Snack#1</option
+              >
+              <option *ngIf="!currentUser.roles.speaker" value="lunchDelivered"
+                >Lunch</option
+              >
+              <option
+                *ngIf="!currentUser.roles.speaker"
+                value="secondSnackDelivered"
+                >Snack#2</option
+              >
+              <option
+                *ngIf="!currentUser.roles.staff"
+                value="teachersWhoGavePoints"
+                >Points
               </option>
             </select>
             <label></label>
@@ -25,37 +44,62 @@
     <div *ngIf="selectedItemForScan === 'teachersWhoGavePoints'" class="row">
       <div class="center-align">
         <p>How many points you want to give to the student?</p>
-        <star-rating [value]="postulantPoints" checkedcolor="red" uncheckedcolor="black" size="50px" readonly="false"
-          (rate)="setPostulantRate($event)"></star-rating>
+        <star-rating
+          [value]="postulantPoints"
+          checkedcolor="red"
+          uncheckedcolor="black"
+          size="50px"
+          readonly="false"
+          (rate)="setPostulantRate($event)"
+        ></star-rating>
       </div>
     </div>
     <div class="row center-align">
-      <zxing-scanner (scanSuccess)="processQRCode($event, currentUser)"></zxing-scanner>
+      <zxing-scanner
+        (scanSuccess)="processQRCode($event, currentUser)"
+      ></zxing-scanner>
     </div>
   </div>
 </ng-container>
 
-<div #postulantProcessedModal=modalDirective wcModal (modalClose)="cleanData()" class="modal">
+<div
+  #postulantProcessedModal="modalDirective"
+  wcModal
+  (modalClose)="cleanData()"
+  class="modal"
+>
   <div class="modal-content">
     <ng-container *ngIf="postulant">
-      <div [ngClass]="{ 'red-text': modalImage === images.error, 'green-text': modalImage === images.info }"
-        class="center-align">
+      <div
+        [ngClass]="{
+          'red-text': modalImage === images.error,
+          'green-text': modalImage === images.info
+        }"
+        class="center-align"
+      >
         <h4>{{ modalMessage }}</h4>
-        <img [src]="modalImage" [alt]="modalMessage">
+        <img [src]="modalImage" [alt]="modalMessage" />
         <p>{{ postulant.fullName }}</p>
       </div>
     </ng-container>
     <ng-container *ngIf="!postulant">
       <div class="red-text center-align">
         <h4>{{ modalMessage }}</h4>
-        <img [src]="modalImage" [alt]="modalMessage">
+        <img [src]="modalImage" [alt]="modalMessage" />
         <p><b>The scanner reads: </b> {{ postulantId }}</p>
       </div>
     </ng-container>
   </div>
   <div class="modal-footer">
-    <button *ngIf="modalImage === images.info" class="modal-close waves-effect waves-light btn ok-btn">Ok</button>
-    <button *ngIf="modalImage === images.error" class="modal-close waves-effect waves-light btn cancel-btn">Try
-      again</button>
+    <button
+      *ngIf="modalImage === images.info"
+      class="modal-close waves-effect waves-light btn ok-btn"
+      >Ok</button
+    >
+    <button
+      *ngIf="modalImage === images.error"
+      class="modal-close waves-effect waves-light btn cancel-btn"
+      >Try again</button
+    >
   </div>
 </div>

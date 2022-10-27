@@ -20,8 +20,8 @@ import { SelectModule } from '../shared/directives/select/select.module';
     RatingModule,
     ScannerRoutingModule,
     ModalModule,
-    SelectModule
+    SelectModule,
   ],
-  providers: [PostulantsService]
+  providers: [PostulantsService],
 })
 export class ScannerModule {}

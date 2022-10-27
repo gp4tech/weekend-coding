@@ -17,23 +17,23 @@ export class PostulantsService extends DataService<Postulant> {
 
   getAcceptedPostulants(): Observable<Postulant[]> {
     return this.db
-      .collection<Postulant>(this.collection, ref =>
+      .collection<Postulant>(this.collection, (ref) =>
         ref
           .where('deleteFlag', '==', false)
           .where('accepted', '==', true)
-          .orderBy('fullName', DataOrder.asc)
+          .orderBy('fullName', DataOrder.asc),
       )
       .valueChanges();
   }
 
   getConfirmedPostulants(): Observable<Postulant[]> {
     return this.db
-      .collection<Postulant>(this.collection, ref =>
+      .collection<Postulant>(this.collection, (ref) =>
         ref
           .where('deleteFlag', '==', false)
           .where('accepted', '==', true)
           .where('confirmedAssistant', '==', true)
-          .orderBy('fullName', DataOrder.asc)
+          .orderBy('fullName', DataOrder.asc),
       )
       .valueChanges();
   }
@@ -126,7 +126,7 @@ export class PostulantsService extends DataService<Postulant> {
   givePointsToPostulant(
     user: AuthUser,
     postulant: Postulant,
-    points: number
+    points: number,
   ): boolean {
     if (!user.roles.staff && postulant.accepted && postulant.checkIn) {
       if (!postulant.teachersWhoGavePoints) {
@@ -152,7 +152,7 @@ export class PostulantsService extends DataService<Postulant> {
   giveRFIDToPostulant(
     user: AuthUser,
     postulant: Postulant,
-    rfid: string
+    rfid: string,
   ): boolean {
     if (!user.roles.speaker) {
       postulant.rfid = rfid;
