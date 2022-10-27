@@ -1,5 +1,15 @@
 {
   "projects": {
-    "default": "weekend-coding"
-  }
+    "default": "devfest2022dev"
+  },
+  "targets": {
+    "devfest2022dev": {
+      "hosting": {
+        "admin": [
+          "devfest-devadmin"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
