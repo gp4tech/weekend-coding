@@ -33,12 +33,10 @@
         <tr>
           <th>#</th>
           <th>Name</th>
-          <th class="hide-on-small-only">Institution</th>
-          <th class="hide-on-small-only">Age</th>
           <th class="hide-on-small-only">Phone</th>
-          <th>Accept</th>
-          <th>Sent</th>
-          <th>Confirmed</th>
+          <th class="center-align">Validated</th>
+          <th class="center-align">Sent</th>
+          <th class="center-align">Bevy Confirmed</th>
           <th></th>
         </tr>
       </thead>
@@ -50,45 +48,23 @@
         >
           <ng-container *ngIf="postulant.visibleInSearch">
             <td>
-              <a
-                [routerLink]="['/postulants', postulant.id]"
-                target="_postulant"
-                >{{ i + 1 }}</a
-              >
+              <a [routerLink]="['/postulants', postulant.id]">{{ i + 1 }}</a>
             </td>
             <td>
-              <a
-                [routerLink]="['/postulants', postulant.id]"
-                target="_postulant"
-                >{{ postulant.fullName }}</a
-              >
+              <a [routerLink]="['/postulants', postulant.id]">{{
+                postulant.fullName
+              }}</a>
             </td>
             <td class="hide-on-small-only">
-              <a
-                [routerLink]="['/postulants', postulant.id]"
-                target="_postulant"
-                >{{ postulant.institution }}</a
-              >
-            </td>
-            <td class="hide-on-small-only">
-              <a
-                [routerLink]="['/postulants', postulant.id]"
-                target="_postulant"
-                >{{ postulant.age }}</a
-              >
-            </td>
-            <td class="hide-on-small-only">
-              <a
-                [routerLink]="['/postulants', postulant.id]"
-                target="_postulant"
-                >{{ postulant.phone }}</a
-              >
+              <a [routerLink]="['/postulants', postulant.id]">{{
+                postulant.phone
+              }}</a>
             </td>
             <td class="center-align">
               <label>
                 <input
                   type="checkbox"
-                  [checked]="postulant.accepted"
+                  [checked]="postulant.validated"
                   (change)="
                     postulantsService.acceptPostulant(currentUser, postulant)
                   "
@@ -101,7 +77,7 @@
                 <input
                   type="checkbox"
                   [checked]="postulant.credentialSent"
-                  [disabled]="!postulant.accepted"
+                  [disabled]="!postulant.validated"
                   (change)="
                     postulantsService.markCredentialAsSent(
                       currentUser,
@@ -116,8 +92,8 @@
               <label>
                 <input
                   type="checkbox"
-                  [checked]="postulant.confirmedAssistant"
-                  [disabled]="!postulant.accepted || !postulant.credentialSent"
+                  [checked]="postulant.bevyFilled"
+                  [disabled]="!postulant.validated || !postulant.credentialSent"
                   (change)="
                     postulantsService.confirmPostulantAssistance(
                       currentUser,

@@ -18,7 +18,7 @@ export abstract class DataService<T extends DataType> {
     protected collection: FirestoreCollection,
   ) {
     this.dataCollection = db.collection<T>(collection, (ref) =>
-      ref.where('deleteFlag', '==', false),
+      ref.where('deleted', '==', false),
     );
   }
 
@@ -33,7 +33,7 @@ export abstract class DataService<T extends DataType> {
   ): Observable<T[]> {
     return this.db
       .collection<T>(this.collection, (ref) => {
-        let query = ref.where('deleteFlag', '==', false).orderBy(field, order);
+        let query = ref.where('deleted', '==', false).orderBy(field, order);
 
         if (maxLimit) {
           query = query.limit(maxLimit);
@@ -50,7 +50,7 @@ export abstract class DataService<T extends DataType> {
       .valueChanges()
       .pipe(
         map((data) => {
-          if (data && !data.deleteFlag) {
+          if (data && !data.deleted) {
             return data;
           }
 
@@ -72,7 +72,7 @@ export abstract class DataService<T extends DataType> {
 
   deleteData(data: T): Observable<void> {
     if (data.id) {
-      data.deleteFlag = true;
+      data.deleted = true;
       return this.upsertData(data);
     }
 

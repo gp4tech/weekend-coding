@@ -12,15 +12,15 @@ import { AuthUser } from '../models/auth-user.model';
 @Injectable()
 export class PostulantsService extends DataService<Postulant> {
   constructor(db: AngularFirestore) {
-    super(db, FirestoreCollection.postulants);
+    super(db, FirestoreCollection.attendees);
   }
 
   getAcceptedPostulants(): Observable<Postulant[]> {
     return this.db
       .collection<Postulant>(this.collection, (ref) =>
         ref
-          .where('deleteFlag', '==', false)
-          .where('accepted', '==', true)
+          .where('deleted', '==', false)
+          .where('validated', '==', true)
           .orderBy('fullName', DataOrder.asc),
       )
       .valueChanges();
@@ -30,9 +30,9 @@ export class PostulantsService extends DataService<Postulant> {
     return this.db
       .collection<Postulant>(this.collection, (ref) =>
         ref
-          .where('deleteFlag', '==', false)
-          .where('accepted', '==', true)
-          .where('confirmedAssistant', '==', true)
+          .where('deleted', '==', false)
+          .where('validated', '==', true)
+          .where('bevyFilled', '==', true)
           .orderBy('fullName', DataOrder.asc),
       )
       .valueChanges();
@@ -40,7 +40,7 @@ export class PostulantsService extends DataService<Postulant> {
 
   acceptPostulant(user: AuthUser, postulant: Postulant): boolean {
     if (user.roles.admin) {
-      postulant.accepted = !postulant.accepted;
+      postulant.validated = !postulant.validated;
       this.upsertData(postulant);
       return true;
     }
@@ -49,7 +49,7 @@ export class PostulantsService extends DataService<Postulant> {
   }
 
   markCredentialAsSent(user: AuthUser, postulant: Postulant): boolean {
-    if (user.roles.admin && postulant.accepted) {
+    if (user.roles.admin && postulant.validated) {
       postulant.credentialSent = !postulant.credentialSent;
       this.upsertData(postulant);
       return true;
@@ -59,8 +59,8 @@ export class PostulantsService extends DataService<Postulant> {
   }
 
   confirmPostulantAssistance(user: AuthUser, postulant: Postulant): boolean {
-    if (user.roles.admin && postulant.accepted && postulant.credentialSent) {
-      postulant.confirmedAssistant = !postulant.confirmedAssistant;
+    if (user.roles.admin && postulant.validated && postulant.credentialSent) {
+      postulant.bevyFilled = !postulant.bevyFilled;
       this.upsertData(postulant);
       return true;
     }
@@ -69,7 +69,7 @@ export class PostulantsService extends DataService<Postulant> {
   }
 
   checkInAssistant(user: AuthUser, postulant: Postulant): boolean {
-    if (!user.roles.speaker && postulant.accepted) {
+    if (!user.roles.speaker && postulant.validated) {
       postulant.checkIn = !postulant.checkIn;
       this.upsertData(postulant);
       return true;
@@ -79,7 +79,7 @@ export class PostulantsService extends DataService<Postulant> {
   }
 
   markFeeForLunchAsReceived(user: AuthUser, postulant: Postulant): boolean {
-    if (!user.roles.speaker && postulant.accepted && postulant.checkIn) {
+    if (!user.roles.speaker && postulant.validated && postulant.checkIn) {
       postulant.feeForLunchReceived = !postulant.feeForLunchReceived;
       this.upsertData(postulant);
       return true;
@@ -91,7 +91,7 @@ export class PostulantsService extends DataService<Postulant> {
   markLunchAsDelivered(user: AuthUser, postulant: Postulant): boolean {
     if (
       !user.roles.speaker &&
-      postulant.accepted &&
+      postulant.validated &&
       postulant.checkIn &&
       postulant.feeForLunchReceived
     ) {
@@ -104,7 +104,7 @@ export class PostulantsService extends DataService<Postulant> {
   }
 
   markFirstSnackAsDelivered(user: AuthUser, postulant: Postulant): boolean {
-    if (!user.roles.speaker && postulant.accepted && postulant.checkIn) {
+    if (!user.roles.speaker && postulant.validated && postulant.checkIn) {
       postulant.firstSnackDelivered = !postulant.firstSnackDelivered;
       this.upsertData(postulant);
       return true;
@@ -114,7 +114,7 @@ export class PostulantsService extends DataService<Postulant> {
   }
 
   markSecondSnackAsDelivered(user: AuthUser, postulant: Postulant): boolean {
-    if (!user.roles.speaker && postulant.accepted && postulant.checkIn) {
+    if (!user.roles.speaker && postulant.validated && postulant.checkIn) {
       postulant.secondSnackDelivered = !postulant.secondSnackDelivered;
       this.upsertData(postulant);
       return true;
@@ -128,7 +128,7 @@ export class PostulantsService extends DataService<Postulant> {
     postulant: Postulant,
     points: number,
   ): boolean {
-    if (!user.roles.staff && postulant.accepted && postulant.checkIn) {
+    if (!user.roles.staff && postulant.validated && postulant.checkIn) {
       if (!postulant.teachersWhoGavePoints) {
         postulant.teachersWhoGavePoints = {};
       }

@@ -110,7 +110,7 @@ export class ScannerComponent implements OnInit, OnDestroy {
         );
         this.modalMessage = scanCorrectly
           ? 'Check in was correct'
-          : 'Check in could not be completed. Review if the assistant was accepted';
+          : 'Check in could not be completed. Review if the assistant was validated';
         break;
       case 'feeForLunchReceived':
         scanCorrectly = this.postulantsService.markFeeForLunchAsReceived(

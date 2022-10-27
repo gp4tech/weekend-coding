@@ -22,7 +22,7 @@ export class AuthUserService extends DataService<AuthUser> {
           user = {
             id: firebaseUser.uid,
             email: firebaseUser.email,
-            deleteFlag: false,
+            deleted: false,
             roles: {
               speaker: true,
             },
