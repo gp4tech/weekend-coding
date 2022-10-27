@@ -1,27 +1,38 @@
-# WeekendCoding
+# DevFest Adm
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
+## Install dependencies
 
-## Development server
+- Install [NVM](https://github.com/nvm-sh/nvm), you will need to switch between Node v10.15.3 and v16.16.0 for the project to work
+- Install the previously mentioned versions of Node (`v10.15.3 and v16.16.0`)
+- Use Node v10.15.3 `nvm use 10.15.3`
+- Run `npm ci`
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Generate keys.ts file
 
-## Code scaffolding
+- Use Node v16.16.0 `nvm use 16.16.0`
+- Run `npm run keys:create`
+- A file name `keys.ts` will be generated under `src/environments/`. You need to pass there the `Firebase keys`. For the development project, you can locate them [here](https://console.firebase.google.com/u/0/project/devfest2022dev/settings/general/web:MjhmMmFhMzEtOWQ3MS00YTg5LWE0MTYtMGZkN2IyZTk4ODcy)
+- Note that you must not commit the generated file (it's ignored by default in the .gitignore file)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Run the project in dev mode with JIT compilation
 
-## Build
+- Use Node v16.16.0 `nvm use 16.16.0`
+- Install [Angular CLI](https://angular.io/cli)
+- Run `ng serve`
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Generate dist bundles
 
-## Running unit tests
+- Use Node v16.16.0 `nvm use 16.16.0`
+- Install [Angular CLI](https://angular.io/cli)
+- Run `ng build --prod`
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Deploy project
 
-## Running end-to-end tests
+- Use Node v16.16.0 `nvm use 16.16.0`
+- Install [Firebase Tools](https://www.npmjs.com/package/firebase-tools)
+- Run `npm run firebase:deploy`
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Additional Notes
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- As you can see, you will need to use Node v10.15.3 to install packages. It's very important that you use `npm ci` instead of `npm i` to avoid sub-dependencies being overwritten
+- Node v16.16.0 is used for everything else. The latest Node version may work as well, but the project was tested with the mentioned version
