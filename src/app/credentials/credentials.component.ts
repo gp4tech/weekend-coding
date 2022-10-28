@@ -43,19 +43,47 @@ export class CredentialsComponent implements OnInit {
 
       switch (counter) {
         case 1:
-          pdf.addImage(credentialData, JPEG, firstItemLeft, firstLineTop, 280, 455);
+          pdf.addImage(
+            credentialData,
+            JPEG,
+            firstItemLeft,
+            firstLineTop,
+            280,
+            455,
+          );
           drawCounter++;
           break;
         case 2:
-          pdf.addImage(credentialData, JPEG, secondItemLeft, firstLineTop, 280, 455);
+          pdf.addImage(
+            credentialData,
+            JPEG,
+            secondItemLeft,
+            firstLineTop,
+            280,
+            455,
+          );
           drawCounter++;
           break;
         case 3:
-          pdf.addImage(credentialData, JPEG, firstItemLeft, secondLineTop, 280, 455);
+          pdf.addImage(
+            credentialData,
+            JPEG,
+            firstItemLeft,
+            secondLineTop,
+            280,
+            455,
+          );
           drawCounter++;
           break;
         case 4:
-          pdf.addImage(credentialData, JPEG, secondItemLeft, secondLineTop, 280, 455);
+          pdf.addImage(
+            credentialData,
+            JPEG,
+            secondItemLeft,
+            secondLineTop,
+            280,
+            455,
+          );
           drawCounter++;
           if (quantityOfCredentials !== drawCounter) {
             pdf.addPage();

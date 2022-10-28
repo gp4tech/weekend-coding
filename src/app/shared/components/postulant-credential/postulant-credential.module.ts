@@ -7,10 +7,7 @@ import { PostulantCredentialComponent } from './postulant-credential.component';
 
 @NgModule({
   declarations: [PostulantCredentialComponent],
-  imports: [
-    CommonModule,
-    QRCodeModule
-  ],
+  imports: [CommonModule, QRCodeModule],
   exports: [PostulantCredentialComponent],
 })
 export class PostulantCredentialModule {}
