@@ -9,7 +9,7 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { QRCodeComponent } from 'angularx-qrcode';
+// import { QRCodeComponent } from 'angularx-qrcode';
 
 import { Postulant } from '../../models/postulant.model';
 
@@ -27,7 +27,8 @@ export class PostulantCredentialComponent implements OnInit, OnChanges {
   @ViewChild('credentialCanvas', { static: true })
   credentialCanvas: ElementRef;
   @ViewChild('qrCode', { static: true })
-  private qrCode: QRCodeComponent;
+  // private qrCode: QRCodeComponent;
+  private qrCode: any;
 
   ngOnInit(): void {
     this.credentialLoaded.emit();

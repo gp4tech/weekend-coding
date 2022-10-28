@@ -30,7 +30,8 @@ export class CredentialsComponent implements OnInit {
   }
 
   printCredentials(): void {
-    const pdf = new jsPDF('p', 'pt', 'legal');
+    // const pdf = new jsPDF('p', 'pt', 'legal');
+    const pdf = {} as any;
     const quantityOfCredentials = this.credentials.length;
     let drawCounter = 0;
     let counter = 0;

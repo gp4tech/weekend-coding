@@ -17,9 +17,9 @@ export class ScoreTableComponent implements OnInit {
   constructor(private postulantsService: PostulantsService) {}
 
   ngOnInit(): void {
-    this.assistants$ = this.postulantsService.getAllSorted(
-      'accumulatedPoints',
-      DataOrder.desc,
-    );
+    // this.assistants$ = this.postulantsService.getAllSorted(
+    //   'accumulatedPoints',
+    //   DataOrder.desc,
+    // );
   }
 }

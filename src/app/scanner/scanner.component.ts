@@ -2,7 +2,7 @@ import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
 
 import { Subscription, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { StarRatingComponent } from 'ng-starrating';
+// import { StarRatingComponent } from 'ng-starrating';
 
 import { AuthService } from '../auth/auth.service';
 import { AuthUser } from '../shared/models/auth-user.model';
@@ -51,29 +51,30 @@ export class ScannerComponent implements OnInit, OnDestroy {
   processQRCode(postulantId: string, currentUser: AuthUser): void {
     if (!this.postulantId) {
       this.postulantId = postulantId;
-      this.postulantSubscription = this.postulantsService
-        .getById(postulantId)
-        .pipe(first())
-        .subscribe((postulant) => {
-          if (postulant) {
-            this.postulant = postulant;
-            this.processScanSelection(currentUser);
-          } else {
-            this.modalMessage = 'This does not look like a valid credential';
-            this.modalImage = this.images.error;
-          }
+      // this.postulantSubscription = this.postulantsService
+      //   .getById(postulantId)
+      //   .pipe(first())
+      //   .subscribe((postulant) => {
+      //     if (postulant) {
+      //       this.postulant = postulant;
+      //       this.processScanSelection(currentUser);
+      //     } else {
+      //       this.modalMessage = 'This does not look like a valid credential';
+      //       this.modalImage = this.images.error;
+      //     }
 
-          setTimeout(() => {
-            this.postulantModal.modalInstance.open();
-          }, 100);
-        });
+      //     setTimeout(() => {
+      //       this.postulantModal.modalInstance.open();
+      //     }, 100);
+      //   });
     }
   }
 
   setPostulantRate(rate: {
     oldValue: number;
     newValue: number;
-    starRating: StarRatingComponent;
+    // starRating: StarRatingComponent;
+    starRating: any;
   }): void {
     this.postulantPoints = rate.newValue;
   }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+// import { AngularFirestore } from '@angular/fire/firestore';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { DataService } from '../models/data-service.model';
 import { Postulant } from '../models/postulant.model';
@@ -10,38 +10,41 @@ import { DataOrder } from '../models/data-order.enum';
 import { AuthUser } from '../models/auth-user.model';
 
 @Injectable()
-export class PostulantsService extends DataService<Postulant> {
-  constructor(db: AngularFirestore) {
-    super(db, FirestoreCollection.attendees);
-  }
+// export class PostulantsService extends DataService<Postulant> {
+export class PostulantsService {
+  // constructor(db: any) {
+  //   super(db, FirestoreCollection.attendees);
+  // }
 
   getAcceptedPostulants(): Observable<Postulant[]> {
-    return this.db
-      .collection<Postulant>(this.collection, (ref) =>
-        ref
-          .where('deleted', '==', false)
-          .where('validated', '==', true)
-          .orderBy('fullName', DataOrder.asc),
-      )
-      .valueChanges();
+    // return this.db
+    //   .collection<Postulant>(this.collection, (ref) =>
+    //     ref
+    //       .where('deleted', '==', false)
+    //       .where('validated', '==', true)
+    //       .orderBy('fullName', DataOrder.asc),
+    //   )
+    //   .valueChanges();
+    return of(null);
   }
 
   getConfirmedPostulants(): Observable<Postulant[]> {
-    return this.db
-      .collection<Postulant>(this.collection, (ref) =>
-        ref
-          .where('deleted', '==', false)
-          .where('validated', '==', true)
-          .where('bevyFilled', '==', true)
-          .orderBy('fullName', DataOrder.asc),
-      )
-      .valueChanges();
+    // return this.db
+    //   .collection<Postulant>(this.collection, (ref) =>
+    //     ref
+    //       .where('deleted', '==', false)
+    //       .where('validated', '==', true)
+    //       .where('bevyFilled', '==', true)
+    //       .orderBy('fullName', DataOrder.asc),
+    //   )
+    //   .valueChanges();
+    return of(null);
   }
 
   acceptPostulant(user: AuthUser, postulant: Postulant): boolean {
     if (user.roles.admin) {
       postulant.validated = !postulant.validated;
-      this.upsertData(postulant);
+      // this.upsertData(postulant);
       return true;
     }
 
@@ -51,7 +54,7 @@ export class PostulantsService extends DataService<Postulant> {
   markCredentialAsSent(user: AuthUser, postulant: Postulant): boolean {
     if (user.roles.admin && postulant.validated) {
       postulant.credentialSent = !postulant.credentialSent;
-      this.upsertData(postulant);
+      // this.upsertData(postulant);
       return true;
     }
 
@@ -61,7 +64,7 @@ export class PostulantsService extends DataService<Postulant> {
   confirmPostulantAssistance(user: AuthUser, postulant: Postulant): boolean {
     if (user.roles.admin && postulant.validated && postulant.credentialSent) {
       postulant.bevyFilled = !postulant.bevyFilled;
-      this.upsertData(postulant);
+      // this.upsertData(postulant);
       return true;
     }
 
@@ -71,7 +74,7 @@ export class PostulantsService extends DataService<Postulant> {
   checkInAssistant(user: AuthUser, postulant: Postulant): boolean {
     if (!user.roles.speaker && postulant.validated) {
       postulant.checkIn = !postulant.checkIn;
-      this.upsertData(postulant);
+      // this.upsertData(postulant);
       return true;
     }
 
@@ -81,7 +84,7 @@ export class PostulantsService extends DataService<Postulant> {
   markFeeForLunchAsReceived(user: AuthUser, postulant: Postulant): boolean {
     if (!user.roles.speaker && postulant.validated && postulant.checkIn) {
       postulant.feeForLunchReceived = !postulant.feeForLunchReceived;
-      this.upsertData(postulant);
+      // this.upsertData(postulant);
       return true;
     }
 
@@ -96,7 +99,7 @@ export class PostulantsService extends DataService<Postulant> {
       postulant.feeForLunchReceived
     ) {
       postulant.lunchDelivered = !postulant.lunchDelivered;
-      this.upsertData(postulant);
+      // this.upsertData(postulant);
       return true;
     }
 
@@ -106,7 +109,7 @@ export class PostulantsService extends DataService<Postulant> {
   markFirstSnackAsDelivered(user: AuthUser, postulant: Postulant): boolean {
     if (!user.roles.speaker && postulant.validated && postulant.checkIn) {
       postulant.firstSnackDelivered = !postulant.firstSnackDelivered;
-      this.upsertData(postulant);
+      // this.upsertData(postulant);
       return true;
     }
 
@@ -116,7 +119,7 @@ export class PostulantsService extends DataService<Postulant> {
   markSecondSnackAsDelivered(user: AuthUser, postulant: Postulant): boolean {
     if (!user.roles.speaker && postulant.validated && postulant.checkIn) {
       postulant.secondSnackDelivered = !postulant.secondSnackDelivered;
-      this.upsertData(postulant);
+      // this.upsertData(postulant);
       return true;
     }
 
@@ -142,7 +145,7 @@ export class PostulantsService extends DataService<Postulant> {
         }
       }
 
-      this.upsertData(postulant);
+      // this.upsertData(postulant);
       return true;
     }
 
@@ -156,7 +159,7 @@ export class PostulantsService extends DataService<Postulant> {
   ): boolean {
     if (!user.roles.speaker) {
       postulant.rfid = rfid;
-      this.upsertData(postulant);
+      // this.upsertData(postulant);
       return true;
     }
 

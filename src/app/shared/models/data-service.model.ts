@@ -1,7 +1,7 @@
-import {
-  AngularFirestore,
-  AngularFirestoreCollection,
-} from '@angular/fire/firestore';
+// import {
+//   AngularFirestore,
+//   AngularFirestoreCollection,
+// } from '@angular/fire/firestore';
 
 import { Observable, from, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -11,15 +11,17 @@ import { DataOrder } from './data-order.enum';
 import { FirestoreCollection } from './firestore-collection.enum';
 
 export abstract class DataService<T extends DataType> {
-  dataCollection: AngularFirestoreCollection<T>;
+  // dataCollection: AngularFirestoreCollection<T>;
+  dataCollection: any;
 
   constructor(
-    protected db: AngularFirestore,
+    // protected db: AngularFirestore,
+    protected db: any,
     protected collection: FirestoreCollection,
   ) {
-    this.dataCollection = db.collection<T>(collection, (ref) =>
-      ref.where('deleted', '==', false),
-    );
+    // this.dataCollection = db.collection<T>(collection, (ref) =>
+    //   ref.where('deleted', '==', false),
+    // );
   }
 
   getAll(): Observable<T[]> {
@@ -31,43 +33,46 @@ export abstract class DataService<T extends DataType> {
     order: DataOrder,
     maxLimit?: number,
   ): Observable<T[]> {
-    return this.db
-      .collection<T>(this.collection, (ref) => {
-        let query = ref.where('deleted', '==', false).orderBy(field, order);
+    // return this.db
+    //   .collection<T>(this.collection, (ref) => {
+    //     let query = ref.where('deleted', '==', false).orderBy(field, order);
 
-        if (maxLimit) {
-          query = query.limit(maxLimit);
-        }
+    //     if (maxLimit) {
+    //       query = query.limit(maxLimit);
+    //     }
 
-        return query;
-      })
-      .valueChanges();
+    //     return query;
+    //   })
+    //   .valueChanges();
+    return of(null);
   }
 
   getById(id: string): Observable<T> {
-    return this.db
-      .doc<T>(`${this.collection}/${id}`)
-      .valueChanges()
-      .pipe(
-        map((data) => {
-          if (data && !data.deleted) {
-            return data;
-          }
+    // return this.db
+    //   .doc<T>(`${this.collection}/${id}`)
+    //   .valueChanges()
+    //   .pipe(
+    //     map((data) => {
+    //       if (data && !data.deleted) {
+    //         return data;
+    //       }
 
-          return null;
-        }),
-      );
+    //       return null;
+    //     }),
+    //   );
+    return of(null);
   }
 
   upsertData(data: T): Observable<void> {
-    let id = data.id;
+    // let id = data.id;
 
-    if (!id) {
-      id = this.db.createId();
-      data.id = id;
-    }
+    // if (!id) {
+    //   id = this.db.createId();
+    //   data.id = id;
+    // }
 
-    return from(this.dataCollection.doc(id).set(data, { merge: true }));
+    // return from(this.dataCollection.doc(id).set(data, { merge: true }));
+    return of(null);
   }
 
   deleteData(data: T): Observable<void> {
