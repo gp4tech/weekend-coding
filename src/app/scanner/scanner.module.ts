@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
-import { RatingModule } from 'ng-starrating';
+import { StarRatingModule } from 'angular-star-rating';
 
 import { ScannerRoutingModule } from './scanner-routing.module';
 import { ScannerComponent } from './scanner.component';
@@ -16,12 +16,12 @@ import { SelectModule } from '../shared/directives/select/select.module';
   imports: [
     CommonModule,
     FormsModule,
-    ZXingScannerModule,
-    RatingModule,
     ScannerRoutingModule,
+    StarRatingModule.forRoot(),
     ModalModule,
-    SelectModule
+    SelectModule,
+    ZXingScannerModule,
   ],
-  providers: [PostulantsService]
+  providers: [PostulantsService],
 })
 export class ScannerModule {}

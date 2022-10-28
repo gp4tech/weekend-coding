@@ -1,17 +1,19 @@
 import { DataType } from './data-type.model';
+import { Ticket } from './ticket.enum';
 
 export interface Postulant extends DataType {
-  fullName: string;
-  institution: string;
-  class: string;
-  age: string;
-  gender: string;
-  email: string;
-  phone: string;
-  reason: string;
-  accepted?: boolean;
+  bevyFilled?: boolean;
   credentialSent?: boolean;
-  confirmedAssistant?: boolean;
+  email: string;
+  foodRestriction: string;
+  fullName: string;
+  phone: string;
+  shirtSize: string;
+  ticket: Ticket;
+  transferSupportURL: string;
+  validated?: boolean;
+
+  // Registries
   checkIn?: boolean;
   feeForLunchReceived?: boolean;
   lunchDelivered?: boolean;

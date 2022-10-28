@@ -3,14 +3,14 @@ import {
   ElementRef,
   OnInit,
   Output,
-  EventEmitter
+  EventEmitter,
 } from '@angular/core';
 
 import { Modal } from 'materialize-css';
 
 @Directive({
   selector: '[wcModal]',
-  exportAs: 'modalDirective'
+  exportAs: 'modalDirective',
 })
 export class ModalDirective implements OnInit {
   modalInstance: Modal;
@@ -22,7 +22,7 @@ export class ModalDirective implements OnInit {
     this.modalInstance = Modal.init(this.elementRef.nativeElement, {
       onCloseEnd: () => {
         this.modalClose.emit();
-      }
+      },
     });
   }
 }

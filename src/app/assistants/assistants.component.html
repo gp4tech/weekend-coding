@@ -1,4 +1,4 @@
-<ng-container *ngIf="(currentUser$ | async) as currentUser">
+<ng-container *ngIf="currentUser$ | async as currentUser">
   <div class="container">
     <div class="row postulant">
       <div class="col s12 postulant-header">
@@ -7,15 +7,25 @@
             <h3>Assistants</h3>
           </div>
           <div class="col s12 m3 right-align">
-            <a routerLink="/assistants/scores" class="postulant-print-btn waves-effect waves-light btn">Scores</a>
+            <a
+              routerLink="/assistants/scores"
+              class="postulant-print-btn waves-effect waves-light btn"
+              >Scores</a
+            >
           </div>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="input-field col s12 m4">
-        <input type="text" name="search" class="form-control" placeholder="Search assistants" [(ngModel)]="searchTerm"
-          (ngModelChange)="searchAssistant()">
+        <input
+          type="text"
+          name="search"
+          class="form-control"
+          placeholder="Search assistants"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="searchAssistant()"
+        />
       </div>
     </div>
     <table>
@@ -32,56 +42,118 @@
             <td>{{ i + 1 }}</td>
             <td>{{ assistant.fullName }}</td>
             <td>
-              <p *ngIf="!rfidInputEnabled || (rfidInputEnabled && assistant.id !== currentAssistant.id)">
+              <p
+                *ngIf="
+                  !rfidInputEnabled ||
+                  (rfidInputEnabled && assistant.id !== currentAssistant.id)
+                "
+              >
                 <a (click)="enableEditingRFID(assistant)">
                   <i class="fas fa-edit"></i>
                 </a>
                 RFID#:
-                <b [ngClass]="{ 'red-text': !assistant.rfid, 'green-text text-darken-1': assistant.rfid }">
-                  {{ assistant.rfid ? assistant.rfid : 'Do not forget the RFID' }}
+                <b
+                  [ngClass]="{
+                    'red-text': !assistant.rfid,
+                    'green-text text-darken-1': assistant.rfid
+                  }"
+                >
+                  {{
+                    assistant.rfid ? assistant.rfid : 'Do not forget the RFID'
+                  }}
                 </b>
               </p>
-              <div *ngIf="rfidInputEnabled && assistant.id === currentAssistant.id">
-                <a (click)="saveAssistantRFID(currentUser, assistant)"><i class="fas fa-save"></i></a>
+              <div
+                *ngIf="rfidInputEnabled && assistant.id === currentAssistant.id"
+              >
+                <a (click)="saveAssistantRFID(currentUser, assistant)"
+                  ><i class="fas fa-save"></i
+                ></a>
                 <div class="input-field inline">
-                  <input id="rfid" type="text" [(ngModel)]="assistant.rfid"
-                    (keyup.enter)="saveAssistantRFID(currentUser, assistant)">
+                  <input
+                    id="rfid"
+                    type="text"
+                    [(ngModel)]="assistant.rfid"
+                    (keyup.enter)="saveAssistantRFID(currentUser, assistant)"
+                  />
                   <label for="rfid">RFID#</label>
                 </div>
               </div>
               <p>
                 <label>
-                  <input type="checkbox" [checked]="assistant.checkIn"
-                    (change)="postunlantsService.checkInAssistant(currentUser, assistant)">
+                  <input
+                    type="checkbox"
+                    [checked]="assistant.checkIn"
+                    (change)="
+                      postulantsService.checkInAssistant(currentUser, assistant)
+                    "
+                  />
                   <span>CheckIn</span>
                 </label>
               </p>
               <p>
                 <label>
-                  <input type="checkbox" [checked]="assistant.feeForLunchReceived" [disabled]="!assistant.checkIn"
-                    (change)="postunlantsService.markFeeForLunchAsReceived(currentUser, assistant)">
+                  <input
+                    type="checkbox"
+                    [checked]="assistant.feeForLunchReceived"
+                    [disabled]="!assistant.checkIn"
+                    (change)="
+                      postulantsService.markFeeForLunchAsReceived(
+                        currentUser,
+                        assistant
+                      )
+                    "
+                  />
                   <span>FeeForLunch</span>
                 </label>
               </p>
               <p>
                 <label>
-                  <input type="checkbox" [checked]="assistant.firstSnackDelivered" [disabled]="!assistant.checkIn"
-                    (change)="postunlantsService.markFirstSnackAsDelivered(currentUser, assistant)">
+                  <input
+                    type="checkbox"
+                    [checked]="assistant.firstSnackDelivered"
+                    [disabled]="!assistant.checkIn"
+                    (change)="
+                      postulantsService.markFirstSnackAsDelivered(
+                        currentUser,
+                        assistant
+                      )
+                    "
+                  />
                   <span>Snack#1</span>
                 </label>
               </p>
               <p>
                 <label>
-                  <input type="checkbox" [checked]="assistant.lunchDelivered"
-                    [disabled]="!assistant.checkIn || !assistant.feeForLunchReceived"
-                    (change)="postunlantsService.markLunchAsDelivered(currentUser, assistant)">
+                  <input
+                    type="checkbox"
+                    [checked]="assistant.lunchDelivered"
+                    [disabled]="
+                      !assistant.checkIn || !assistant.feeForLunchReceived
+                    "
+                    (change)="
+                      postulantsService.markLunchAsDelivered(
+                        currentUser,
+                        assistant
+                      )
+                    "
+                  />
                   <span>Lunch</span>
                 </label>
               </p>
               <p>
                 <label>
-                  <input type="checkbox" [checked]="assistant.secondSnackDelivered" [disabled]="!assistant.checkIn"
-                    (change)="postunlantsService.markSecondSnackAsDelivered(currentUser, assistant)">
+                  <input
+                    type="checkbox"
+                    [checked]="assistant.secondSnackDelivered"
+                    [disabled]="!assistant.checkIn"
+                    (change)="
+                      postulantsService.markSecondSnackAsDelivered(
+                        currentUser,
+                        assistant
+                      )
+                    "
+                  />
                   <span>Snack#2</span>
                 </label>
               </p>

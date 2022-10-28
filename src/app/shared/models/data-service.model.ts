@@ -1,7 +1,7 @@
 import {
   AngularFirestore,
-  AngularFirestoreCollection
-} from '@angular/fire/firestore';
+  AngularFirestoreCollection,
+} from '@angular/fire/compat/firestore';
 
 import { Observable, from, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -15,10 +15,10 @@ export abstract class DataService<T extends DataType> {
 
   constructor(
     protected db: AngularFirestore,
-    protected collection: FirestoreCollection
+    protected collection: FirestoreCollection,
   ) {
-    this.dataCollection = db.collection<T>(collection, ref =>
-      ref.where('deleteFlag', '==', false)
+    this.dataCollection = db.collection<T>(collection, (ref) =>
+      ref.where('deleted', '==', false),
     );
   }
 
@@ -29,11 +29,11 @@ export abstract class DataService<T extends DataType> {
   getAllSorted(
     field: string,
     order: DataOrder,
-    maxLimit?: number
+    maxLimit?: number,
   ): Observable<T[]> {
     return this.db
-      .collection<T>(this.collection, ref => {
-        let query = ref.where('deleteFlag', '==', false).orderBy(field, order);
+      .collection<T>(this.collection, (ref) => {
+        let query = ref.where('deleted', '==', false).orderBy(field, order);
 
         if (maxLimit) {
           query = query.limit(maxLimit);
@@ -49,13 +49,13 @@ export abstract class DataService<T extends DataType> {
       .doc<T>(`${this.collection}/${id}`)
       .valueChanges()
       .pipe(
-        map(data => {
-          if (data && !data.deleteFlag) {
+        map((data) => {
+          if (data && !data.deleted) {
             return data;
           }
 
           return null;
-        })
+        }),
       );
   }
 
@@ -72,7 +72,7 @@ export abstract class DataService<T extends DataType> {
 
   deleteData(data: T): Observable<void> {
     if (data.id) {
-      data.deleteFlag = true;
+      data.deleted = true;
       return this.upsertData(data);
     }
 

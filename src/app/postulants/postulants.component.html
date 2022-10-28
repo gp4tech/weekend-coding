@@ -1,4 +1,4 @@
-<ng-container *ngIf="(currentUser$ | async) as currentUser">
+<ng-container *ngIf="currentUser$ | async as currentUser">
   <div class="container">
     <div class="row postulant">
       <div class="col s12 postulant-header">
@@ -7,15 +7,25 @@
             <h3>Postulants</h3>
           </div>
           <div class="col s12 m3 right-align">
-            <a routerLink="/credentials" class="postulant-print-btn waves-effect waves-light btn">Credentials</a>
+            <a
+              routerLink="/credentials"
+              class="postulant-print-btn waves-effect waves-light btn"
+              >Credentials</a
+            >
           </div>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="input-field col s12 m4">
-        <input type="text" name="search" class="form-control" placeholder="Search postulants" [(ngModel)]="searchTerm"
-          (ngModelChange)="searchPostulant()">
+        <input
+          type="text"
+          name="search"
+          class="form-control"
+          placeholder="Search postulants"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="searchPostulant()"
+        />
       </div>
     </div>
     <table class="highlight">
@@ -23,58 +33,83 @@
         <tr>
           <th>#</th>
           <th>Name</th>
-          <th class="hide-on-small-only">Institution</th>
-          <th class="hide-on-small-only">Age</th>
           <th class="hide-on-small-only">Phone</th>
-          <th>Accept</th>
-          <th>Sent</th>
-          <th>Confirmed</th>
+          <th class="center-align">Validated</th>
+          <th class="center-align">Sent</th>
+          <th class="center-align">Bevy Confirmed</th>
           <th></th>
         </tr>
       </thead>
 
       <tbody>
-        <tr *ngFor="let postulant of postulants; index as i" class="postulant-row">
+        <tr
+          *ngFor="let postulant of postulants; index as i"
+          class="postulant-row"
+        >
           <ng-container *ngIf="postulant.visibleInSearch">
             <td>
-              <a [routerLink]="['/postulants', postulant.id]" target="_postulant">{{ i + 1 }}</a>
+              <a [routerLink]="['/postulants', postulant.id]">{{ i + 1 }}</a>
             </td>
             <td>
-              <a [routerLink]="['/postulants', postulant.id]" target="_postulant">{{ postulant.fullName }}</a>
+              <a [routerLink]="['/postulants', postulant.id]">{{
+                postulant.fullName
+              }}</a>
             </td>
             <td class="hide-on-small-only">
-              <a [routerLink]="['/postulants', postulant.id]" target="_postulant">{{ postulant.institution }}</a>
-            </td>
-            <td class="hide-on-small-only">
-              <a [routerLink]="['/postulants', postulant.id]" target="_postulant">{{ postulant.age }}</a>
-            </td>
-            <td class="hide-on-small-only">
-              <a [routerLink]="['/postulants', postulant.id]" target="_postulant">{{ postulant.phone }}</a>
+              <a [routerLink]="['/postulants', postulant.id]">{{
+                postulant.phone
+              }}</a>
             </td>
             <td class="center-align">
               <label>
-                <input type="checkbox" [checked]="postulant.accepted"
-                  (change)="postulantsService.acceptPostulant(currentUser, postulant)">
+                <input
+                  type="checkbox"
+                  [checked]="postulant.validated"
+                  (change)="
+                    postulantsService.acceptPostulant(currentUser, postulant)
+                  "
+                />
                 <span></span>
               </label>
             </td>
             <td class="center-align">
               <label>
-                <input type="checkbox" [checked]="postulant.credentialSent" [disabled]="!postulant.accepted"
-                  (change)="postulantsService.markCredentialAsSent(currentUser, postulant)">
+                <input
+                  type="checkbox"
+                  [checked]="postulant.credentialSent"
+                  [disabled]="!postulant.validated"
+                  (change)="
+                    postulantsService.markCredentialAsSent(
+                      currentUser,
+                      postulant
+                    )
+                  "
+                />
                 <span></span>
               </label>
             </td>
             <td class="center-align">
               <label>
-                <input type="checkbox" [checked]="postulant.confirmedAssistant"
-                  [disabled]="!postulant.accepted || !postulant.credentialSent"
-                  (change)="postulantsService.confirmPostulantAssistance(currentUser, postulant)">
+                <input
+                  type="checkbox"
+                  [checked]="postulant.bevyFilled"
+                  [disabled]="!postulant.validated || !postulant.credentialSent"
+                  (change)="
+                    postulantsService.confirmPostulantAssistance(
+                      currentUser,
+                      postulant
+                    )
+                  "
+                />
                 <span></span>
               </label>
             </td>
             <td>
-              <a class="modal-trigger red-text" href="#delete-postulant" (click)="setSelectedPostulant(postulant)">
+              <a
+                class="modal-trigger red-text"
+                href="#delete-postulant"
+                (click)="setSelectedPostulant(postulant)"
+              >
                 <i class="fas fa-trash-alt"></i>
               </a>
             </td>
@@ -90,14 +125,23 @@
     <div class="modal-content">
       <h4>Delete Postulant</h4>
       <div class="center-align">
-        <p>Are you sure you want to delete this postulant: {{ selectedPostulant.fullName }}?</p>
+        <p
+          >Are you sure you want to delete this postulant:
+          {{ selectedPostulant.fullName }}?</p
+        >
       </div>
     </div>
     <div class="modal-footer">
-      <button class="modal-close waves-effect waves-light btn ok-btn"
-        (click)="setSelectedPostulant(null)">Cancel</button>
-      <button class="modal-close waves-effect waves-light btn cancel-btn"
-        (click)="postulantsService.deleteData(selectedPostulant)">Delete</button>
+      <button
+        class="modal-close waves-effect waves-light btn ok-btn"
+        (click)="setSelectedPostulant(null)"
+        >Cancel</button
+      >
+      <button
+        class="modal-close waves-effect waves-light btn cancel-btn"
+        (click)="postulantsService.deleteData(selectedPostulant)"
+        >Delete</button
+      >
     </div>
   </ng-container>
 </div>

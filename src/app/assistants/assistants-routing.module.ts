@@ -7,16 +7,16 @@ import { ScoreTableComponent } from './score-table/score-table.component';
 const routes: Routes = [
   {
     path: '',
-    component: AssistantsComponent
+    component: AssistantsComponent,
   },
   {
     path: 'scores',
-    component: ScoreTableComponent
-  }
+    component: ScoreTableComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AssistantsRoutingModule {}

@@ -12,7 +12,7 @@ import { Postulant } from '../../shared/models/postulant.model';
 @Component({
   selector: 'wc-postulant',
   templateUrl: './postulant.component.html',
-  styleUrls: ['./postulant.component.scss']
+  styleUrls: ['./postulant.component.scss'],
 })
 export class PostulantComponent implements OnInit, OnDestroy {
   currentUser$: Observable<AuthUser>;
@@ -25,7 +25,7 @@ export class PostulantComponent implements OnInit, OnDestroy {
     public postulantsService: PostulantsService,
     private route: ActivatedRoute,
     private router: Router,
-    private auth: AuthService
+    private auth: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -34,7 +34,7 @@ export class PostulantComponent implements OnInit, OnDestroy {
 
     this.postulantSubscription = this.postulantsService
       .getById(this.postulantId)
-      .subscribe(postulant => {
+      .subscribe((postulant) => {
         if (postulant) {
           this.postulant = postulant;
         } else {

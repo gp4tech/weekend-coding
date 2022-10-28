@@ -9,7 +9,7 @@ import { DataOrder } from '../../shared/models/data-order.enum';
 @Component({
   selector: 'wc-score-table',
   templateUrl: './score-table.component.html',
-  styleUrls: ['./score-table.component.scss']
+  styleUrls: ['./score-table.component.scss'],
 })
 export class ScoreTableComponent implements OnInit {
   assistants$: Observable<Postulant[]>;
@@ -19,7 +19,7 @@ export class ScoreTableComponent implements OnInit {
   ngOnInit(): void {
     this.assistants$ = this.postulantsService.getAllSorted(
       'accumulatedPoints',
-      DataOrder.desc
+      DataOrder.desc,
     );
   }
 }

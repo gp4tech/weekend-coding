@@ -1,8 +1,7 @@
 import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
 
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, timer } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { StarRatingComponent } from 'ng-starrating';
 
 import { AuthService } from '../auth/auth.service';
 import { AuthUser } from '../shared/models/auth-user.model';
@@ -15,12 +14,12 @@ const defaultRate = 3;
 @Component({
   selector: 'wc-scanner',
   templateUrl: './scanner.component.html',
-  styleUrls: ['./scanner.component.scss']
+  styleUrls: ['./scanner.component.scss'],
 })
 export class ScannerComponent implements OnInit, OnDestroy {
   images = {
     info: 'assets/images/processed.png',
-    error: 'assets/images/error.png'
+    error: 'assets/images/error.png',
   };
   modalImage = this.images.error;
   postulantPoints = defaultRate;
@@ -30,12 +29,13 @@ export class ScannerComponent implements OnInit, OnDestroy {
   postulantId: string;
   postulant: Postulant;
   postulantSubscription: Subscription;
+
   @ViewChild('postulantProcessedModal', { static: true })
   postulantModal: ModalDirective;
 
   constructor(
     private auth: AuthService,
-    private postulantsService: PostulantsService
+    private postulantsService: PostulantsService,
   ) {}
 
   ngOnInit(): void {
@@ -43,18 +43,16 @@ export class ScannerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.postulantSubscription) {
-      this.postulantSubscription.unsubscribe();
-    }
+    this.postulantSubscription?.unsubscribe();
   }
 
   processQRCode(postulantId: string, currentUser: AuthUser): void {
-    if (!this.postulantId) {
-      this.postulantId = postulantId;
+    if (!this.postulantId && postulantId) {
+      this.postulantId = encodeURIComponent(postulantId);
       this.postulantSubscription = this.postulantsService
         .getById(postulantId)
         .pipe(first())
-        .subscribe(postulant => {
+        .subscribe((postulant) => {
           if (postulant) {
             this.postulant = postulant;
             this.processScanSelection(currentUser);
@@ -63,19 +61,13 @@ export class ScannerComponent implements OnInit, OnDestroy {
             this.modalImage = this.images.error;
           }
 
-          setTimeout(() => {
-            this.postulantModal.modalInstance.open();
-          }, 100);
+          timer(100).subscribe(() => this.postulantModal.modalInstance.open());
         });
     }
   }
 
-  setPostulantRate(rate: {
-    oldValue: number;
-    newValue: number;
-    starRating: StarRatingComponent;
-  }): void {
-    this.postulantPoints = rate.newValue;
+  setPostulantRate({ rating }: { rating: number }): void {
+    this.postulantPoints = rating;
   }
 
   cleanData(): void {
@@ -85,9 +77,8 @@ export class ScannerComponent implements OnInit, OnDestroy {
   }
 
   private processScanSelection(currentUser: AuthUser): void {
-    const postulantFieldValueForSelection = this.postulant[
-      this.selectedItemForScan
-    ];
+    const postulantFieldValueForSelection =
+      this.postulant[this.selectedItemForScan];
 
     if (
       this.selectedItemForScan === 'teachersWhoGavePoints' ||
@@ -107,16 +98,16 @@ export class ScannerComponent implements OnInit, OnDestroy {
       case 'checkIn':
         scanCorrectly = this.postulantsService.checkInAssistant(
           currentUser,
-          this.postulant
+          this.postulant,
         );
         this.modalMessage = scanCorrectly
           ? 'Check in was correct'
-          : 'Check in could not be completed. Review if the assistant was accepted';
+          : 'Check in could not be completed. Review if the assistant was validated';
         break;
       case 'feeForLunchReceived':
         scanCorrectly = this.postulantsService.markFeeForLunchAsReceived(
           currentUser,
-          this.postulant
+          this.postulant,
         );
         this.modalMessage = scanCorrectly
           ? 'Fee for lunch was received correctly'
@@ -125,7 +116,7 @@ export class ScannerComponent implements OnInit, OnDestroy {
       case 'lunchDelivered':
         scanCorrectly = this.postulantsService.markLunchAsDelivered(
           currentUser,
-          this.postulant
+          this.postulant,
         );
         this.modalMessage = scanCorrectly
           ? 'Lunch was delivered correctly'
@@ -134,7 +125,7 @@ export class ScannerComponent implements OnInit, OnDestroy {
       case 'firstSnackDelivered':
         scanCorrectly = this.postulantsService.markFirstSnackAsDelivered(
           currentUser,
-          this.postulant
+          this.postulant,
         );
         this.modalMessage = scanCorrectly
           ? 'First snack was delivered correctly'
@@ -143,7 +134,7 @@ export class ScannerComponent implements OnInit, OnDestroy {
       case 'secondSnackDelivered':
         scanCorrectly = this.postulantsService.markSecondSnackAsDelivered(
           currentUser,
-          this.postulant
+          this.postulant,
         );
         this.modalMessage = scanCorrectly
           ? 'Second snack was delivered correctly'
@@ -153,7 +144,7 @@ export class ScannerComponent implements OnInit, OnDestroy {
         scanCorrectly = this.postulantsService.givePointsToPostulant(
           currentUser,
           this.postulant,
-          this.postulantPoints
+          this.postulantPoints,
         );
         this.modalMessage = scanCorrectly
           ? `${this.postulantPoints} ${
