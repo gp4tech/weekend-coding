@@ -18,8 +18,8 @@ import { ModalModule } from '../shared/directives/modal/modal.module';
     FormsModule,
     PostulantsRoutingModule,
     PostulantCredentialModule,
-    ModalModule,
+    ModalModule
   ],
-  providers: [PostulantsService],
+  providers: [PostulantsService]
 })
 export class PostulantsModule {}

@@ -10,6 +10,6 @@ import { ScoreTableComponent } from './score-table/score-table.component';
 @NgModule({
   declarations: [AssistantsComponent, ScoreTableComponent],
   imports: [CommonModule, FormsModule, AssistantsRoutingModule],
-  providers: [PostulantsService],
+  providers: [PostulantsService]
 })
 export class AssistantsModule {}

@@ -7,48 +7,48 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: '/postulants',
+    redirectTo: '/postulants'
   },
   {
     path: 'login',
     loadChildren: () =>
-      import('./login/login.module').then((mod) => mod.LoginModule),
-    canActivate: [AuthGuard],
+      import('./login/login.module').then(mod => mod.LoginModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'postulants',
     loadChildren: () =>
       import('./postulants/postulants.module').then(
-        (mod) => mod.PostulantsModule,
+        mod => mod.PostulantsModule
       ),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard]
   },
   {
     path: 'assistants',
     loadChildren: () =>
       import('./assistants/assistants.module').then(
-        (mod) => mod.AssistantsModule,
+        mod => mod.AssistantsModule
       ),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard]
   },
   {
     path: 'scanner',
     loadChildren: () =>
-      import('./scanner/scanner.module').then((mod) => mod.ScannerModule),
-    canActivate: [AuthGuard],
+      import('./scanner/scanner.module').then(mod => mod.ScannerModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'credentials',
     loadChildren: () =>
       import('./credentials/credentials.module').then(
-        (mod) => mod.CredentialsModule,
+        mod => mod.CredentialsModule
       ),
-    canActivate: [AuthGuard],
-  },
+    canActivate: [AuthGuard]
+  }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
-  exports: [RouterModule],
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}

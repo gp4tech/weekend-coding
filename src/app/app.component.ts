@@ -6,7 +6,7 @@ import { ModalDirective } from './shared/directives/modal/modal.directive';
 @Component({
   selector: 'wc-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   @ViewChild('updateModal', { static: true })
@@ -15,12 +15,12 @@ export class AppComponent implements OnInit {
   constructor(private updateService: SwUpdate) {}
 
   ngOnInit(): void {
-    this.updateService.available.subscribe((event) => {
+    this.updateService.available.subscribe(event => {
       console.log('current version is', event.current);
       console.log('available version is', event.available);
       this.updateModal.modalInstance.open();
     });
-    this.updateService.activated.subscribe((event) => {
+    this.updateService.activated.subscribe(event => {
       console.log('old version was', event.previous);
       console.log('new version is', event.current);
     });

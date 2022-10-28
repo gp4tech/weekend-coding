@@ -1,4 +1,4 @@
 export enum DataOrder {
   asc = 'asc',
-  desc = 'desc',
+  desc = 'desc'
 }

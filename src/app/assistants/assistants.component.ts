@@ -10,7 +10,7 @@ import { PostulantsService } from '../shared/services/postulants.service';
 @Component({
   selector: 'wc-assistants',
   templateUrl: './assistants.component.html',
-  styleUrls: ['./assistants.component.scss'],
+  styleUrls: ['./assistants.component.scss']
 })
 export class AssistantsComponent implements OnInit, OnDestroy {
   searchTerm = '';
@@ -21,15 +21,15 @@ export class AssistantsComponent implements OnInit, OnDestroy {
   assistantsSubscription: Subscription;
 
   constructor(
-    public postulantsService: PostulantsService,
-    private auth: AuthService,
+    public postunlantsService: PostulantsService,
+    private auth: AuthService
   ) {}
 
   ngOnInit(): void {
     this.currentUser$ = this.auth.getCurrentUser();
-    this.assistantsSubscription = this.postulantsService
+    this.assistantsSubscription = this.postunlantsService
       .getConfirmedPostulants()
-      .subscribe((assistants) => {
+      .subscribe(assistants => {
         this.assistants = assistants;
         this.searchAssistant();
         this.currentAssistant = this.assistants[0];
@@ -42,13 +42,13 @@ export class AssistantsComponent implements OnInit, OnDestroy {
 
   searchAssistant(): void {
     if (this.searchTerm) {
-      this.assistants.forEach((assistant) => {
+      this.assistants.forEach(assistant => {
         assistant.visibleInSearch = assistant.fullName
           .toLowerCase()
           .includes(this.searchTerm.toLowerCase());
       });
     } else {
-      this.assistants.forEach((assistant) => {
+      this.assistants.forEach(assistant => {
         assistant.visibleInSearch = true;
       });
     }
@@ -60,10 +60,10 @@ export class AssistantsComponent implements OnInit, OnDestroy {
   }
 
   saveAssistantRFID(currentUser: AuthUser, assistant: Postulant): void {
-    this.postulantsService.giveRFIDToPostulant(
+    this.postunlantsService.giveRFIDToPostulant(
       currentUser,
       assistant,
-      assistant.rfid,
+      assistant.rfid
     );
     this.rfidInputEnabled = false;
   }

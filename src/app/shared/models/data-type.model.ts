@@ -1,4 +1,4 @@
 export interface DataType {
   id: string;
-  deleted: boolean;
+  deleteFlag: boolean;
 }

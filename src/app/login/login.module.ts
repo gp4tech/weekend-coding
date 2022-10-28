@@ -8,6 +8,11 @@ import { SpinnerLoaderModule } from '../shared/components/spinner-loader/spinner
 
 @NgModule({
   declarations: [LoginComponent],
-  imports: [CommonModule, FormsModule, LoginRoutingModule, SpinnerLoaderModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    LoginRoutingModule,
+    SpinnerLoaderModule
+  ]
 })
 export class LoginModule {}

@@ -9,6 +9,6 @@ import { SidenavDirective } from './navbar/sidenav.directive';
 @NgModule({
   declarations: [NavbarComponent, FooterComponent, SidenavDirective],
   imports: [CommonModule, RouterModule],
-  exports: [NavbarComponent, FooterComponent],
+  exports: [NavbarComponent, FooterComponent]
 })
 export class LayoutModule {}

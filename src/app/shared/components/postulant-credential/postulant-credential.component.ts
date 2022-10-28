@@ -6,7 +6,7 @@ import {
   OnChanges,
   Output,
   EventEmitter,
-  OnInit,
+  OnInit
 } from '@angular/core';
 
 import { QRCodeComponent } from 'angularx-qrcode';
@@ -16,7 +16,7 @@ import { Postulant } from '../../models/postulant.model';
 @Component({
   selector: 'wc-postulant-credential',
   templateUrl: './postulant-credential.component.html',
-  styleUrls: ['./postulant-credential.component.scss'],
+  styleUrls: ['./postulant-credential.component.scss']
 })
 export class PostulantCredentialComponent implements OnInit, OnChanges {
   qrData = 'QR was not generated yet';
@@ -40,39 +40,36 @@ export class PostulantCredentialComponent implements OnInit, OnChanges {
   print(): void {
     const printButton = document.createElement('a');
     printButton.download = this.postulant.fullName;
-    printButton.href =
-      this.credentialCanvas.nativeElement.toDataURL('image/png;base64');
+    printButton.href = this.credentialCanvas.nativeElement.toDataURL(
+      'image/png;base64'
+    );
     printButton.click();
   }
 
   private loadCredential(): void {
     if (this.postulant) {
       this.qrData = this.postulant.id;
-      const context = (
-        this.credentialCanvas.nativeElement as HTMLCanvasElement
-      ).getContext('2d');
+      const context = (this.credentialCanvas
+        .nativeElement as HTMLCanvasElement).getContext('2d');
       const templateImage = new Image();
-      const qrTop = 210;
-      const qrLeft = 35;
+      const qrTop = 240;
+      const qrLeft = 70;
       const nameTop = 190;
       const nameLeft = this.canvasWidth / 2;
 
       templateImage.src = 'assets/images/cred-vertical.png';
       templateImage.onload = () => {
-        let qrImage = this.qrCode.qrcElement.nativeElement.querySelector('img');
+        let qrImage = this.qrCode.el.nativeElement.querySelector('img');
 
-        if (!qrImage || !qrImage?.src) {
-          qrImage =
-            this.qrCode.qrcElement.nativeElement.querySelector('canvas');
+        if (!qrImage.src) {
+          qrImage = this.qrCode.el.nativeElement.querySelector('canvas');
         }
 
-        if (qrImage) {
-          context.drawImage(templateImage, 0, 0);
-          context.font = '20px Montserrat';
-          context.textAlign = 'center';
-          context.fillText(this.postulant.fullName, nameLeft, nameTop);
-          context.drawImage(qrImage, qrLeft, qrTop);
-        }
+        context.drawImage(templateImage, 0, 0);
+        context.font = '20px Montserrat';
+        context.textAlign = 'center';
+        context.fillText(this.postulant.fullName, nameLeft, nameTop);
+        context.drawImage(qrImage, qrLeft, qrTop);
       };
     }
   }

@@ -6,12 +6,12 @@ import { ScannerComponent } from './scanner.component';
 const routes: Routes = [
   {
     path: '',
-    component: ScannerComponent,
-  },
+    component: ScannerComponent
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class ScannerRoutingModule {}

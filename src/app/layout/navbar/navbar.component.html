@@ -2,32 +2,16 @@
   <nav>
     <div class="nav-wrapper">
       <div class="container">
-        <a routerLink="/"
-          ><img
-            class="brand-logo"
-            src="assets/images/logo.png"
-            alt="Weekend Coding"
-        /></a>
+        <a routerLink="/"><img class="brand-logo" src="assets/images/logo.png" alt="Weekend Coding"></a>
         <ng-container *ngIf="currentUser">
           <a data-target="mobile-menu" class="sidenav-trigger">
             <i class="fa fa-bars"></i>
           </a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li
-              ><a *ngIf="currentUser.roles.admin" routerLink="/postulants"
-                >Postulants</a
-              ></li
-            >
-            <li
-              ><a *ngIf="!currentUser.roles.speaker" routerLink="/assistants"
-                >Assistants</a
-              ></li
-            >
+            <li><a *ngIf="currentUser.roles.admin" routerLink="/postulants">Postulants</a></li>
+            <li><a *ngIf="!currentUser.roles.speaker" routerLink="/assistants">Assistants</a></li>
             <li><a routerLink="/scanner">Scanner</a></li>
-            <li
-              ><a title="Sign Out" (click)="auth.logout()"
-                ><i class="fas fa-sign-out-alt"></i></a
-            ></li>
+            <li><a title="Sign Out" (click)="auth.logout()"><i class="fas fa-sign-out-alt"></i></a></li>
           </ul>
         </ng-container>
       </div>
@@ -36,28 +20,11 @@
 
   <ng-container *ngIf="currentUser">
     <ul wcSidenav id="mobile-menu" class="sidenav">
-      <li
-        ><a
-          *ngIf="currentUser.roles.admin"
-          routerLink="/postulants"
-          class="sidenav-close"
-          >Postulants</a
-        ></li
-      >
-      <li
-        ><a
-          *ngIf="!currentUser.roles.speaker"
-          routerLink="/assistants"
-          class="sidenav-close"
-          >Assistants</a
-        ></li
-      >
+      <li><a *ngIf="currentUser.roles.admin" routerLink="/postulants" class="sidenav-close">Postulants</a></li>
+      <li><a *ngIf="!currentUser.roles.speaker" routerLink="/assistants" class="sidenav-close">Assistants</a></li>
       <li><a routerLink="/scanner" class="sidenav-close">Scanner</a></li>
       <li id="sign-out-mobile">
-        <a
-          (click)="auth.logout()"
-          class="waves-effect waves-light btn cancel-btn sidenav-close"
-        >
+        <a (click)="auth.logout()" class="waves-effect waves-light btn cancel-btn sidenav-close">
           <i class="fas fa-sign-out-alt"></i>Sign Out
         </a>
       </li>

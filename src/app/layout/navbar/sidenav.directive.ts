@@ -3,7 +3,7 @@ import { Directive, ElementRef, OnInit } from '@angular/core';
 import { Sidenav } from 'materialize-css';
 
 @Directive({
-  selector: '[wcSidenav]',
+  selector: '[wcSidenav]'
 })
 export class SidenavDirective implements OnInit {
   constructor(private elementRef: ElementRef) {}

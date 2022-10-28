@@ -4,16 +4,12 @@
 </main>
 <wc-footer></wc-footer>
 
-<div #updateModal="modalDirective" wcModal class="modal bottom-sheet">
+<div #updateModal=modalDirective wcModal class="modal bottom-sheet">
   <div class="modal-content">
     <h4>Update Available</h4>
     <p>There is an update for the app, press the button to update</p>
   </div>
   <div class="modal-footer">
-    <a
-      (click)="updateApp()"
-      class="modal-close waves-effect waves-green btn-flat ok-btn white-text"
-      >Update</a
-    >
+    <a (click)="updateApp()" class="modal-close waves-effect waves-green btn-flat ok-btn white-text">Update</a>
   </div>
 </div>

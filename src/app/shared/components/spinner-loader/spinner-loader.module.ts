@@ -6,6 +6,6 @@ import { SpinnerLoaderComponent } from './spinner-loader.component';
 @NgModule({
   declarations: [SpinnerLoaderComponent],
   imports: [CommonModule],
-  exports: [SpinnerLoaderComponent],
+  exports: [SpinnerLoaderComponent]
 })
 export class SpinnerLoaderModule {}

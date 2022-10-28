@@ -7,6 +7,6 @@ import { AuthUserService } from './auth-user.service';
 
 @NgModule({
   imports: [CommonModule],
-  providers: [AuthService, AuthGuard, AuthUserService],
+  providers: [AuthService, AuthGuard, AuthUserService]
 })
 export class AuthModule {}

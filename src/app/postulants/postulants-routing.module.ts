@@ -7,16 +7,16 @@ import { PostulantComponent } from './postulant/postulant.component';
 const routes: Routes = [
   {
     path: '',
-    component: PostulantsComponent,
+    component: PostulantsComponent
   },
   {
     path: ':id',
-    component: PostulantComponent,
-  },
+    component: PostulantComponent
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class PostulantsRoutingModule {}

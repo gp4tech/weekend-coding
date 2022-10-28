@@ -1,26 +1,27 @@
-# DevFest Adm
+# WeekendCoding
 
-- Node: `v18.12.0`
-- npm: `v8.19.2`
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
 
-## Install dependencies
+## Development server
 
-- Run `npm ci`
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Generate keys.ts file
+## Code scaffolding
 
-- Run `npm run keys:create`
-- A file name `keys.ts` will be generated under `src/environments/`. You need to pass there the `Firebase keys`. For the development project, you can locate them [here](https://console.firebase.google.com/u/0/project/devfest2022dev/settings/general/web:MjhmMmFhMzEtOWQ3MS00YTg5LWE0MTYtMGZkN2IyZTk4ODcy)
-- Note that you must not commit the generated file (it's ignored by default in the .gitignore file)
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Run the project in dev mode with JIT compilation
+## Build
 
-- Run `npm start`
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## Generate dist bundles
+## Running unit tests
 
-- Run `npm run build`
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Deploy project
+## Running end-to-end tests
 
-- Run `npm run firebase:deploy`
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

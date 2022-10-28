@@ -22,7 +22,9 @@
         "@schematics/angular:guard": {
           "skipTests": true
         },
-        "@schematics/angular:module": {},
+        "@schematics/angular:module": {
+          "skipTests": true
+        },
         "@schematics/angular:pipe": {
           "skipTests": true
         },
@@ -44,14 +46,11 @@
               "src/assets",
               "src/manifest.webmanifest"
             ],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "src/styles.scss"
+            ],
             "scripts": [],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true
+            "es5BrowserSupport": true
           },
           "configurations": {
             "production": {
@@ -64,7 +63,9 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
+              "extractCss": true,
               "namedChunks": false,
+              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -73,17 +74,12 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
                 }
               ],
               "serviceWorker": true,
               "ngswConfigPath": "ngsw-config.json"
             }
-          },
-          "defaultConfiguration": ""
+          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -109,7 +105,9 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "src/styles.scss"
+            ],
             "scripts": [],
             "assets": [
               "src/favicon.ico",
@@ -118,14 +116,16 @@
             ]
           }
         },
-        "deploy": {
-          "builder": "@angular/fire:deploy",
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "prerender": false,
-            "ssr": false,
-            "browserTarget": "weekend-coding:build:production",
-            "firebaseProject": "devfest2022dev",
-            "firebaseHostingSite": "devfest-devadmin"
+            "tsConfig": [
+              "src/tsconfig.app.json",
+              "src/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
@@ -146,8 +146,18 @@
               "devServerTarget": "weekend-coding:serve:production"
             }
           }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
         }
       }
     }
-  }
+  },
+  "defaultProject": "weekend-coding"
 }

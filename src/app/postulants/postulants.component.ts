@@ -11,7 +11,7 @@ import { DataOrder } from '../shared/models/data-order.enum';
 @Component({
   selector: 'wc-postulants',
   templateUrl: './postulants.component.html',
-  styleUrls: ['./postulants.component.scss'],
+  styleUrls: ['./postulants.component.scss']
 })
 export class PostulantsComponent implements OnInit, OnDestroy {
   searchTerm = '';
@@ -22,14 +22,14 @@ export class PostulantsComponent implements OnInit, OnDestroy {
 
   constructor(
     public postulantsService: PostulantsService,
-    private auth: AuthService,
+    private auth: AuthService
   ) {}
 
   ngOnInit(): void {
     this.currentUser$ = this.auth.getCurrentUser();
     this.postulantsSubscription = this.postulantsService
       .getAllSorted('fullName', DataOrder.asc)
-      .subscribe((postulants) => {
+      .subscribe(postulants => {
         this.postulants = postulants;
         this.searchPostulant();
       });
@@ -45,13 +45,13 @@ export class PostulantsComponent implements OnInit, OnDestroy {
 
   searchPostulant(): void {
     if (this.searchTerm) {
-      this.postulants.forEach((postulant) => {
+      this.postulants.forEach(postulant => {
         postulant.visibleInSearch = postulant.fullName
           .toLowerCase()
           .includes(this.searchTerm.toLowerCase());
       });
     } else {
-      this.postulants.forEach((postulant) => {
+      this.postulants.forEach(postulant => {
         postulant.visibleInSearch = true;
       });
     }

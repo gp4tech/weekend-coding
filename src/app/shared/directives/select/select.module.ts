@@ -6,6 +6,6 @@ import { SelectDirective } from './select.directive';
 @NgModule({
   declarations: [SelectDirective],
   imports: [CommonModule],
-  exports: [SelectDirective],
+  exports: [SelectDirective]
 })
 export class SelectModule {}
