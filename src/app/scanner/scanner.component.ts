@@ -1,8 +1,7 @@
 import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
 
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, timer } from 'rxjs';
 import { first } from 'rxjs/operators';
-// import { StarRatingComponent } from 'ng-starrating';
 
 import { AuthService } from '../auth/auth.service';
 import { AuthUser } from '../shared/models/auth-user.model';
@@ -30,6 +29,7 @@ export class ScannerComponent implements OnInit, OnDestroy {
   postulantId: string;
   postulant: Postulant;
   postulantSubscription: Subscription;
+
   @ViewChild('postulantProcessedModal', { static: true })
   postulantModal: ModalDirective;
 
@@ -43,40 +43,31 @@ export class ScannerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.postulantSubscription) {
-      this.postulantSubscription.unsubscribe();
-    }
+    this.postulantSubscription?.unsubscribe();
   }
 
   processQRCode(postulantId: string, currentUser: AuthUser): void {
-    if (!this.postulantId) {
-      this.postulantId = postulantId;
-      // this.postulantSubscription = this.postulantsService
-      //   .getById(postulantId)
-      //   .pipe(first())
-      //   .subscribe((postulant) => {
-      //     if (postulant) {
-      //       this.postulant = postulant;
-      //       this.processScanSelection(currentUser);
-      //     } else {
-      //       this.modalMessage = 'This does not look like a valid credential';
-      //       this.modalImage = this.images.error;
-      //     }
+    if (!this.postulantId && postulantId) {
+      this.postulantId = encodeURIComponent(postulantId);
+      this.postulantSubscription = this.postulantsService
+        .getById(postulantId)
+        .pipe(first())
+        .subscribe((postulant) => {
+          if (postulant) {
+            this.postulant = postulant;
+            this.processScanSelection(currentUser);
+          } else {
+            this.modalMessage = 'This does not look like a valid credential';
+            this.modalImage = this.images.error;
+          }
 
-      //     setTimeout(() => {
-      //       this.postulantModal.modalInstance.open();
-      //     }, 100);
-      //   });
+          timer(100).subscribe(() => this.postulantModal.modalInstance.open());
+        });
     }
   }
 
-  setPostulantRate(rate: {
-    oldValue: number;
-    newValue: number;
-    // starRating: StarRatingComponent;
-    starRating: any;
-  }): void {
-    this.postulantPoints = rate.newValue;
+  setPostulantRate({ rating }: { rating: number }): void {
+    this.postulantPoints = rating;
   }
 
   cleanData(): void {

@@ -32,15 +32,15 @@ export class PostulantComponent implements OnInit, OnDestroy {
     this.currentUser$ = this.auth.getCurrentUser();
     this.postulantId = this.route.snapshot.paramMap.get('id');
 
-    // this.postulantSubscription = this.postulantsService
-    //   .getById(this.postulantId)
-    //   .subscribe((postulant) => {
-    //     if (postulant) {
-    //       this.postulant = postulant;
-    //     } else {
-    //       this.router.navigate(['/']);
-    //     }
-    //   });
+    this.postulantSubscription = this.postulantsService
+      .getById(this.postulantId)
+      .subscribe((postulant) => {
+        if (postulant) {
+          this.postulant = postulant;
+        } else {
+          this.router.navigate(['/']);
+        }
+      });
   }
 
   ngOnDestroy(): void {

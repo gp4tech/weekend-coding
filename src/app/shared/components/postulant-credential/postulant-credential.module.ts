@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-// import { QRCodeModule } from 'angularx-qrcode';
+import { QRCodeModule } from 'angularx-qrcode';
 
 import { PostulantCredentialComponent } from './postulant-credential.component';
 
@@ -9,7 +9,7 @@ import { PostulantCredentialComponent } from './postulant-credential.component';
   declarations: [PostulantCredentialComponent],
   imports: [
     CommonModule,
-    // QRCodeModule
+    QRCodeModule
   ],
   exports: [PostulantCredentialComponent],
 })

@@ -27,12 +27,12 @@ export class PostulantsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.currentUser$ = this.auth.getCurrentUser();
-    // this.postulantsSubscription = this.postulantsService
-    //   .getAllSorted('fullName', DataOrder.asc)
-    //   .subscribe((postulants) => {
-    //     this.postulants = postulants;
-    //     this.searchPostulant();
-    //   });
+    this.postulantsSubscription = this.postulantsService
+      .getAllSorted('fullName', DataOrder.asc)
+      .subscribe((postulants) => {
+        this.postulants = postulants;
+        this.searchPostulant();
+      });
   }
 
   ngOnDestroy(): void {
